@@ -71,8 +71,8 @@ public class SecurityConfig {
                         "/", // Public endpoints
                         "/api/auth/login/**",
                         "/api/auth/register/**",
-                        "api/auth/sent-email/**",
-                        "api/auth/sent-password/**",
+                        "/api/auth/sent-email/**",
+                        "/api/auth/sent-password/**",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html"
