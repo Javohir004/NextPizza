@@ -18,23 +18,19 @@ import java.time.LocalDate;
 @Builder
 public class User extends BaseEntity {
 
-    @Column(unique = true, nullable = false)
     private String username;
 
     private String surname;
 
-    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(unique = true, nullable = false)
     private String email;
 
     private LocalDate birthDate;
 
-    @Column(nullable = false)
     @Pattern(regexp = "^\\+998\\s?\\d{9}$", message = "Phone number must start with +998, followed by 9 digits, and may have an optional space.")
     private String phoneNumber;
 
@@ -44,7 +40,5 @@ public class User extends BaseEntity {
 
     private String address;
 
-    @Column(nullable = false)
-    private String passportSeries;
 
 }

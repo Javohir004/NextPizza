@@ -68,7 +68,6 @@ public class UserService {
                 .phoneNumber(userRequest.getPhoneNumber())
                 .balance(userRequest.getBalance())
                 .address(userRequest.getAddress())
-                .passportSeries(userRequest.getPassportSeries())
                 .build();
 
     }
@@ -85,7 +84,6 @@ public class UserService {
                 .phoneNumber(user.getPhoneNumber())
                 .address(user.getAddress())
                 .createDate(user.getCreated().toLocalDate())
-                .passportSeries(user.getPassportSeries())
                 .build();
     }
 
@@ -111,7 +109,7 @@ public class UserService {
         user.setRole(userRequest.getRole() != null ? userRequest.getRole() : user.getRole());
         user.setBirthDate(userRequest.getBirthDate() != null ? userRequest.getBirthDate() : user.getBirthDate());
         user.setAddress(userRequest.getAddress() != null ? userRequest.getAddress() : user.getAddress());
-        user.setPassportSeries(userRequest.getPassportSeries() != null ? userRequest.getPassportSeries() : user.getPassportSeries());
+
 
         // Saqlash
         return userRepository.save(user);

@@ -3,7 +3,8 @@ package uz.jvh.nextpizza.domain.entity;
 import jakarta.persistence.Entity;
 import lombok.*;
 import uz.jvh.nextpizza.domain.enomerator.FoodType;
-@Entity
+
+@Entity(name = "foods")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
