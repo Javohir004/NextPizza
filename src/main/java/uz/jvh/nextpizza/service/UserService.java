@@ -49,42 +49,9 @@ public class UserService {
         return userRepository.findByRoleAndIsActiveTrueOrderByCreatedDesc(role);
     }
 
-
-
     public User findByIdJ(UUID id) {
         return userRepository.findById(id).
                 orElseThrow(() -> new CustomException("User  not found", 4002, HttpStatus.NOT_FOUND));
-    }
-
-
-    public User mapRequestToEntity(UserRequest userRequest) {
-        return User.builder()
-                .username(userRequest.getUsername())
-                .surname(userRequest.getSurname())
-                .password(passwordEncoder.encode(userRequest.getPassword()))
-                .role(userRequest.getRole())
-                .email(userRequest.getEmail())
-                .birthDate(userRequest.getBirthDate())
-                .phoneNumber(userRequest.getPhoneNumber())
-                .balance(userRequest.getBalance())
-                .address(userRequest.getAddress())
-                .build();
-
-    }
-
-
-    public UserResponse mapEntityToResponse(User user) {
-        return UserResponse.builder()
-                .uuid(user.getId())
-                .username(user.getUsername())
-                .surname(user.getSurname())
-                .role(user.getRole())
-                .email(user.getEmail())
-                .birthDate(user.getBirthDate())
-                .phoneNumber(user.getPhoneNumber())
-                .address(user.getAddress())
-                .createDate(user.getCreated().toLocalDate())
-                .build();
     }
 
     public List<User> findAllJ() {
@@ -132,6 +99,34 @@ public class UserService {
         userRepository.flush();
     }
 
+    public User mapRequestToEntity(UserRequest userRequest) {
+        return User.builder()
+                .username(userRequest.getUsername())
+                .surname(userRequest.getSurname())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
+                .role(userRequest.getRole())
+                .email(userRequest.getEmail())
+                .birthDate(userRequest.getBirthDate())
+                .phoneNumber(userRequest.getPhoneNumber())
+                .balance(userRequest.getBalance())
+                .address(userRequest.getAddress())
+                .build();
 
+    }
+
+
+    public UserResponse mapEntityToResponse(User user) {
+        return UserResponse.builder()
+                .uuid(user.getId())
+                .username(user.getUsername())
+                .surname(user.getSurname())
+                .role(user.getRole())
+                .email(user.getEmail())
+                .birthDate(user.getBirthDate())
+                .phoneNumber(user.getPhoneNumber())
+                .address(user.getAddress())
+                .createDate(user.getCreated().toLocalDate())
+                .build();
+    }
 
 }
