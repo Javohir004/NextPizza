@@ -15,14 +15,16 @@ import java.util.List;
 @Builder
 public class Order extends BaseEntity {
 
-    private int quantity;
 
     private LocalDateTime orderDate;
 
     private double price;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    /** CascadeType.ALL esa boshqa operatsiyalarni ham (update, delete va boshqalar) User ga uzatadi,
+     *  bu xavfli, chunki Order o‘chirganda foydalanuvchi ham o‘chib ketishi mumkin.
+     */
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id" , nullable = false)
     private User user;
 
@@ -35,4 +37,7 @@ public class Order extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
     private List<Food> foods;
+
+    @Embedded
+    private Address deliveryAddress;
 }
