@@ -21,7 +21,7 @@ public class UserResponse {
     private String email;
     private LocalDate birthDate;
     private String phoneNumber;
-    private boolean enabled;
+//    private boolean enabled;
     private String address;
     private LocalDate createDate;
     private String passportSeries;

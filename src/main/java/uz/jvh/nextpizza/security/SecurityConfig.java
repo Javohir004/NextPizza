@@ -68,7 +68,8 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource()).and() // Enable CORS with custom configuration
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/", // Public endpoints
+                        "/",// Public endpoints
+                        "/hello",
                         "/api/auth/login/**",
                         "/api/auth/register/**",
                         "/api/auth/sent-email/**",
