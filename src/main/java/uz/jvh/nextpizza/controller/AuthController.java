@@ -28,4 +28,11 @@ public class AuthController {
     public JwtResponse login(@RequestBody LoginDto loginDto) {
         return authService.login(loginDto);
     }
+
+
+//    @PostMapping("/login")
+//    public JwtResponse login(@RequestBody LoginDto loginDto) {
+//        return authService.login(loginDto);
+//    }
+
 }
