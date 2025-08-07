@@ -18,5 +18,5 @@ public class Food extends BaseEntity {
 
     private FoodType foodType;
 
-    private double price;
+    private Double price;
 }

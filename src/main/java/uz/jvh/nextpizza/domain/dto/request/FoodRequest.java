@@ -17,5 +17,5 @@ public class FoodRequest {
 
     private FoodType foodType;
 
-    private double price;
+    private Double price;
 }

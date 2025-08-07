@@ -78,6 +78,7 @@ public class UserService {
         user.setRole(userRequest.getRole() != null ? userRequest.getRole() : user.getRole());
         user.setBirthDate(userRequest.getBirthDate() != null ? userRequest.getBirthDate() : user.getBirthDate());
         user.setAddress(userRequest.getAddress() != null ? userRequest.getAddress() : user.getAddress());
+        user.setBalance(userRequest.getBalance() != null ? userRequest.getBalance() : user.getBalance());
 
 
         // Saqlash
