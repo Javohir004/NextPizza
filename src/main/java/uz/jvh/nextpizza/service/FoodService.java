@@ -5,11 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.jvh.nextpizza.domain.dto.request.FoodRequest;
 import uz.jvh.nextpizza.domain.dto.response.FoodResponse;
+import uz.jvh.nextpizza.domain.enomerator.FoodType;
 import uz.jvh.nextpizza.domain.entity.Food;
 import uz.jvh.nextpizza.domain.exception.CustomException;
 import uz.jvh.nextpizza.repository.FoodRepository;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +32,21 @@ public class FoodService {
                 orElseThrow(() -> new CustomException("Food not found", 4002, HttpStatus.NOT_FOUND));
     }
 
+    public List<FoodResponse> searchFoods(String name, Double minPrice, Double maxPrice, FoodType foodType) {
+        List<Food> foods = foodRepository.searchFoods(name, minPrice, maxPrice, foodType);
+        return foods.stream()
+                .map(this::mapEntityToResponse)
+                .collect(Collectors.toList());
+    }
+
+
+    public void deleteFoodById(UUID id) {
+        Food foodById = findFoodById(id);
+        foodById.setActive(false);
+        foodRepository.save(foodById);
+        foodRepository.flush();
+    }
+
 
     @Transactional
     public FoodResponse updateFood(UUID foodId , FoodRequest foodRequest) {
@@ -46,8 +64,6 @@ public class FoodService {
         return mapEntityToResponse(foodRepository.save(food));
 
     }
-
-
 
 
     public Food mapRequestToEntity(FoodRequest foodRequest) {
