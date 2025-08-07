@@ -32,6 +32,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final OrderRepository orderRepository;
 
+    ///  deyarli barcha methodlar ishlayapti
+
     @Transactional
     public void save(User user) {
         userRepository.save(user);
