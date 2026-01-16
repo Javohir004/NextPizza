@@ -3,12 +3,11 @@ package uz.jvh.nextpizza.domain.entity;
 import jakarta.persistence.Entity;
 import lombok.*;
 
-@Entity(name = "history")
+@Entity(name = "orderHistory")
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class History extends BaseEntity {
+public class OrderHistory extends BaseEntity {
 
 }

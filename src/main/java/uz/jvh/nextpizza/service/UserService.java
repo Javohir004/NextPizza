@@ -77,7 +77,6 @@ public class UserService {
         user.setPhoneNumber(userRequest.getPhoneNumber() != null ? userRequest.getPhoneNumber() : user.getPhoneNumber());
         user.setRole(userRequest.getRole() != null ? userRequest.getRole() : user.getRole());
         user.setBirthDate(userRequest.getBirthDate() != null ? userRequest.getBirthDate() : user.getBirthDate());
-        user.setAddress(userRequest.getAddress() != null ? userRequest.getAddress() : user.getAddress());
         user.setBalance(userRequest.getBalance() != null ? userRequest.getBalance() : user.getBalance());
 
 
@@ -112,7 +111,6 @@ public class UserService {
                 .birthDate(userRequest.getBirthDate())
                 .phoneNumber(userRequest.getPhoneNumber())
                 .balance(userRequest.getBalance())
-                .address(userRequest.getAddress())
                 .build();
 
     }
@@ -127,7 +125,6 @@ public class UserService {
                 .email(user.getEmail())
                 .birthDate(user.getBirthDate())
                 .phoneNumber(user.getPhoneNumber())
-                .address(user.getAddress())
                 .createDate(user.getCreated().toLocalDate())
                 .build();
     }
