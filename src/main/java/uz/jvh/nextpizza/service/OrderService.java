@@ -21,7 +21,7 @@ public class OrderService {
                 .orderDate(orderRequest.getOrderDate())
                 .deliveryAddress(orderRequest.getDeliveryAddress())
                 .price(orderRequest.getPrice())
-                .foods(orderRequest.getFoods())
+                .pizzas(orderRequest.getPizzas())
                 .user(orderRequest.getUser())
                 .build();
     }
@@ -32,7 +32,7 @@ public class OrderService {
                 .orderDate(order.getOrderDate())
                 .deliveryAddress(order.getDeliveryAddress())
                 .price(order.getPrice())
-                .foods(order.getFoods())
+                .pizzas(order.getPizzas())
                 .user(order.getUser())
                 .build();
     }

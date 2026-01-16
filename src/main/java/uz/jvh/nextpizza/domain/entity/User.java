@@ -41,7 +41,8 @@ public class User extends BaseEntity {
     @Builder.Default
     private Double balance = 0.0;
 
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
 
 

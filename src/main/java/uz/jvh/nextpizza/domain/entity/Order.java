@@ -2,6 +2,7 @@ package uz.jvh.nextpizza.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import uz.jvh.nextpizza.domain.enomerator.DrinkType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,8 +37,11 @@ public class Order extends BaseEntity {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
-    private List<Food> foods;
+    private List<Pizza> pizzas;
 
-    @Embedded
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Drinks> drinks;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Address deliveryAddress;
 }

@@ -10,7 +10,7 @@ import uz.jvh.nextpizza.domain.enomerator.FoodType;
 @Getter
 @Setter
 @Builder
-public class Food extends BaseEntity {
+public class Pizza extends BaseEntity {
 
     private String name;
 

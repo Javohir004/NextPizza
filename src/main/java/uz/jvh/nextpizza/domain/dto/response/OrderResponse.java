@@ -2,7 +2,7 @@ package uz.jvh.nextpizza.domain.dto.response;
 
 import lombok.*;
 import uz.jvh.nextpizza.domain.entity.Address;
-import uz.jvh.nextpizza.domain.entity.Food;
+import uz.jvh.nextpizza.domain.entity.Pizza;
 import uz.jvh.nextpizza.domain.entity.User;
 
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private double price;
     private User user;
-    private List<Food> foods;
+    private List<Pizza> pizzas;
     private Address deliveryAddress;
 
 }

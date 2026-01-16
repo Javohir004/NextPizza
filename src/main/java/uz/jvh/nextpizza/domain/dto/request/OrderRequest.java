@@ -1,9 +1,8 @@
 package uz.jvh.nextpizza.domain.dto.request;
 
-import jakarta.persistence.*;
 import lombok.*;
 import uz.jvh.nextpizza.domain.entity.Address;
-import uz.jvh.nextpizza.domain.entity.Food;
+import uz.jvh.nextpizza.domain.entity.Pizza;
 import uz.jvh.nextpizza.domain.entity.User;
 
 import java.time.LocalDateTime;
@@ -18,7 +17,7 @@ public class OrderRequest {
     private LocalDateTime orderDate;
     private double price;
     private User user;
-    private List<Food> foods;
+    private List<Pizza> pizzas;
     private Address deliveryAddress;
 }
 

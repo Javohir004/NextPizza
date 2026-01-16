@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.jvh.nextpizza.domain.dto.request.FoodRequest;
 import uz.jvh.nextpizza.domain.dto.response.FoodResponse;
 import uz.jvh.nextpizza.domain.enomerator.FoodType;
-import uz.jvh.nextpizza.domain.entity.Food;
+import uz.jvh.nextpizza.domain.entity.Pizza;
 import uz.jvh.nextpizza.domain.exception.CustomException;
 import uz.jvh.nextpizza.repository.FoodRepository;
 
@@ -27,47 +27,47 @@ public class FoodService {
                           mapRequestToEntity(foodRequest)));
     }
 
-    public Food findFoodById(UUID id) {
+    public Pizza findFoodById(UUID id) {
         return foodRepository.findById(id).
                 orElseThrow(() -> new CustomException("Food not found", 4002, HttpStatus.NOT_FOUND));
     }
 
     public List<FoodResponse> searchFoods(String name, Double minPrice, Double maxPrice, FoodType foodType) {
-        List<Food> foods = foodRepository.searchFoods(name, minPrice, maxPrice, foodType);
-        return foods.stream()
+        List<Pizza> pizzas = foodRepository.searchFoods(name, minPrice, maxPrice, foodType);
+        return pizzas.stream()
                 .map(this::mapEntityToResponse)
                 .collect(Collectors.toList());
     }
 
 
     public void deleteFoodById(UUID id) {
-        Food foodById = findFoodById(id);
-        foodById.setActive(false);
-        foodRepository.save(foodById);
+        Pizza pizzaById = findFoodById(id);
+        pizzaById.setActive(false);
+        foodRepository.save(pizzaById);
         foodRepository.flush();
     }
 
 
     @Transactional
     public FoodResponse updateFood(UUID foodId , FoodRequest foodRequest) {
-        Food food = findFoodById(foodId);
+        Pizza pizza = findFoodById(foodId);
 
         if(foodRequest == null) {
-            return mapEntityToResponse(food);
+            return mapEntityToResponse(pizza);
         }
 
-        food.setName(foodRequest.getName() != null ? foodRequest.getName() : food.getName());
-        food.setDescription(foodRequest.getDescription() != null ? foodRequest.getDescription() : food.getDescription());
-        food.setPrice(foodRequest.getPrice() != null ? foodRequest.getPrice() : food.getPrice());
-        food.setFoodType(foodRequest.getFoodType() != null ? foodRequest.getFoodType() : food.getFoodType());
+        pizza.setName(foodRequest.getName() != null ? foodRequest.getName() : pizza.getName());
+        pizza.setDescription(foodRequest.getDescription() != null ? foodRequest.getDescription() : pizza.getDescription());
+        pizza.setPrice(foodRequest.getPrice() != null ? foodRequest.getPrice() : pizza.getPrice());
+        pizza.setFoodType(foodRequest.getFoodType() != null ? foodRequest.getFoodType() : pizza.getFoodType());
 
-        return mapEntityToResponse(foodRepository.save(food));
+        return mapEntityToResponse(foodRepository.save(pizza));
 
     }
 
 
-    public Food mapRequestToEntity(FoodRequest foodRequest) {
-        return Food.builder()
+    public Pizza mapRequestToEntity(FoodRequest foodRequest) {
+        return Pizza.builder()
                 .name(foodRequest.getName())
                 .foodType(foodRequest.getFoodType())
                 .price(foodRequest.getPrice())
@@ -77,14 +77,14 @@ public class FoodService {
     }
 
 
-    public FoodResponse mapEntityToResponse(Food food) {
+    public FoodResponse mapEntityToResponse(Pizza pizza) {
         return FoodResponse.builder()
-                .foodId(food.getId())
-                .name(food.getName())
-                .foodType(food.getFoodType())
-                .price(food.getPrice())
-                .description(food.getDescription())
-                .createDate(food.getCreated())
+                .foodId(pizza.getId())
+                .name(pizza.getName())
+                .foodType(pizza.getFoodType())
+                .price(pizza.getPrice())
+                .description(pizza.getDescription())
+                .createDate(pizza.getCreated())
                 .build();
     }
 }
