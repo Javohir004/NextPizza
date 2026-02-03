@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.security;
+package uz.jvh.nextpizza.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletOutputStream;
@@ -20,6 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import uz.jvh.nextpizza.security.CustomUserDetailsService;
+import uz.jvh.nextpizza.security.JwtTokenFilter;
+import uz.jvh.nextpizza.security.JwtTokenUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;

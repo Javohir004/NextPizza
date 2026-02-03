@@ -1,8 +1,8 @@
-package uz.jvh.nextpizza.domain.entity;
+package uz.jvh.nextpizza.entity;
 
 import jakarta.persistence.Entity;
 import lombok.*;
-import uz.jvh.nextpizza.domain.enomerator.DrinkType;
+import uz.jvh.nextpizza.enomerator.DrinkType;
 
 @Entity(name = "drinks")
 @AllArgsConstructor

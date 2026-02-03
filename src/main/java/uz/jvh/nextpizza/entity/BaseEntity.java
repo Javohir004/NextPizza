@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.domain.entity;
+package uz.jvh.nextpizza.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

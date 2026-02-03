@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uz.jvh.nextpizza.domain.dto.request.UserRequest;
-import uz.jvh.nextpizza.domain.dto.response.JwtResponse;
-import uz.jvh.nextpizza.domain.dto.response.LoginDto;
-import uz.jvh.nextpizza.domain.dto.response.UserResponse;
+import uz.jvh.nextpizza.dto.request.UserRequest;
+import uz.jvh.nextpizza.dto.response.JwtResponse;
+import uz.jvh.nextpizza.dto.response.LoginDto;
+import uz.jvh.nextpizza.dto.response.UserResponse;
 import uz.jvh.nextpizza.service.AuthService;
 
 
@@ -28,11 +28,5 @@ public class AuthController {
     public JwtResponse login(@RequestBody LoginDto loginDto) {
         return authService.login(loginDto);
     }
-
-
-//    @PostMapping("/login")
-//    public JwtResponse login(@RequestBody LoginDto loginDto) {
-//        return authService.login(loginDto);
-//    }
 
 }

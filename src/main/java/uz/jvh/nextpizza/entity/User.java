@@ -1,9 +1,9 @@
-package uz.jvh.nextpizza.domain.entity;
+package uz.jvh.nextpizza.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import uz.jvh.nextpizza.domain.enomerator.UserRole;
+import uz.jvh.nextpizza.enomerator.UserRole;
 
 
 import java.time.LocalDate;

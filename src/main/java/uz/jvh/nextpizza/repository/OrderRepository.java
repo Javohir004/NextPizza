@@ -2,7 +2,7 @@ package uz.jvh.nextpizza.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import uz.jvh.nextpizza.domain.entity.Order;
+import uz.jvh.nextpizza.entity.Order;
 
 import java.util.UUID;
 

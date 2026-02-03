@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.domain.enomerator;
+package uz.jvh.nextpizza.enomerator;
 
 public enum FoodType {
     /**

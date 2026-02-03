@@ -1,9 +1,8 @@
-package uz.jvh.nextpizza.domain.dto.response;
+package uz.jvh.nextpizza.dto.response;
 
 import lombok.*;
-import uz.jvh.nextpizza.domain.enomerator.FoodType;
+import uz.jvh.nextpizza.enomerator.FoodType;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

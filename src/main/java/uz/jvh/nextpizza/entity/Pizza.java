@@ -1,15 +1,16 @@
-package uz.jvh.nextpizza.domain.dto.request;
+package uz.jvh.nextpizza.entity;
 
-
+import jakarta.persistence.Entity;
 import lombok.*;
-import uz.jvh.nextpizza.domain.enomerator.FoodType;
+import uz.jvh.nextpizza.enomerator.FoodType;
 
+@Entity(name = "foods")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class FoodRequest {
+public class Pizza extends BaseEntity {
 
     private String name;
 

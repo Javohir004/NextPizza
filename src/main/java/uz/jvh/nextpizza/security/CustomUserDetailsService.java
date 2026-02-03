@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import uz.jvh.nextpizza.domain.enomerator.UserRole;
-import uz.jvh.nextpizza.domain.entity.User;
+import uz.jvh.nextpizza.enomerator.UserRole;
+import uz.jvh.nextpizza.entity.User;
 import uz.jvh.nextpizza.repository.UserRepository;
 
 
