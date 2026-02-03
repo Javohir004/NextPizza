@@ -1,18 +1,19 @@
-package uz.jvh.nextpizza.domain.dto.request;
+package uz.jvh.nextpizza.dto.response;
 
 import lombok.*;
-import uz.jvh.nextpizza.domain.enomerator.UserRole;
+import uz.jvh.nextpizza.enomerator.UserRole;
 
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class UserRequest {
-
+public class UserResponse {
+    private UUID uuid;
     private String username;
     private String surname;
     private String password;
@@ -20,9 +21,8 @@ public class UserRequest {
     private String email;
     private LocalDate birthDate;
     private String phoneNumber;
-    private Double balance = 0.0;
+    private boolean enabled;
     private String address;
+    private LocalDate createDate;
     private String passportSeries;
-
-
 }

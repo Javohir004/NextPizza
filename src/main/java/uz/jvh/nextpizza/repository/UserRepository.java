@@ -2,8 +2,8 @@ package uz.jvh.nextpizza.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import uz.jvh.nextpizza.domain.enomerator.UserRole;
-import uz.jvh.nextpizza.domain.entity.User;
+import uz.jvh.nextpizza.enomerator.UserRole;
+import uz.jvh.nextpizza.entity.User;
 
 
 import java.util.List;

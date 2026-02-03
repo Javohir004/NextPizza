@@ -7,11 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.jvh.nextpizza.domain.dto.request.UserRequest;
-import uz.jvh.nextpizza.domain.dto.response.UserResponse;
-import uz.jvh.nextpizza.domain.enomerator.UserRole;
-import uz.jvh.nextpizza.domain.entity.User;
-import uz.jvh.nextpizza.domain.exception.CustomException;
+import uz.jvh.nextpizza.dto.request.UserRequest;
+import uz.jvh.nextpizza.dto.response.UserResponse;
+import uz.jvh.nextpizza.enomerator.UserRole;
+import uz.jvh.nextpizza.entity.User;
+import uz.jvh.nextpizza.exception.CustomException;
 import uz.jvh.nextpizza.repository.OrderRepository;
 import uz.jvh.nextpizza.repository.UserRepository;
 
@@ -79,8 +79,6 @@ public class UserService {
         user.setBirthDate(userRequest.getBirthDate() != null ? userRequest.getBirthDate() : user.getBirthDate());
         user.setBalance(userRequest.getBalance() != null ? userRequest.getBalance() : user.getBalance());
 
-
-        // Saqlash
         return userRepository.save(user);
     }
 

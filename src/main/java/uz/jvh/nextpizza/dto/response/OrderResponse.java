@@ -1,9 +1,9 @@
-package uz.jvh.nextpizza.domain.dto.response;
+package uz.jvh.nextpizza.dto.response;
 
 import lombok.*;
-import uz.jvh.nextpizza.domain.entity.Address;
-import uz.jvh.nextpizza.domain.entity.Pizza;
-import uz.jvh.nextpizza.domain.entity.User;
+import uz.jvh.nextpizza.entity.Address;
+import uz.jvh.nextpizza.entity.Pizza;
+import uz.jvh.nextpizza.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

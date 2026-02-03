@@ -3,12 +3,9 @@ package uz.jvh.nextpizza.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.jvh.nextpizza.domain.dto.request.FoodRequest;
-import uz.jvh.nextpizza.domain.dto.request.UserRequest;
-import uz.jvh.nextpizza.domain.dto.response.FoodResponse;
-import uz.jvh.nextpizza.domain.dto.response.UserResponse;
-import uz.jvh.nextpizza.domain.enomerator.FoodType;
-import uz.jvh.nextpizza.domain.entity.User;
+import uz.jvh.nextpizza.dto.request.FoodRequest;
+import uz.jvh.nextpizza.dto.response.FoodResponse;
+import uz.jvh.nextpizza.enomerator.FoodType;
 import uz.jvh.nextpizza.service.FoodService;
 
 import java.util.List;

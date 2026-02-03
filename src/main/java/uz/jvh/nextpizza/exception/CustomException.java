@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.domain.exception;
+package uz.jvh.nextpizza.exception;
 import org.springframework.http.HttpStatus;
 
 public class CustomException extends RuntimeException {

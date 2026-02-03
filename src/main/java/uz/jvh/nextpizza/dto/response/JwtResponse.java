@@ -1,10 +1,10 @@
-package uz.jvh.nextpizza.domain.dto.response;
+package uz.jvh.nextpizza.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.jvh.nextpizza.domain.enomerator.UserRole;
+import uz.jvh.nextpizza.enomerator.UserRole;
 
 
 import java.util.UUID;

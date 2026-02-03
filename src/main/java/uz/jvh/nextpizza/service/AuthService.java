@@ -5,13 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import uz.jvh.nextpizza.domain.dto.request.UserRequest;
-import uz.jvh.nextpizza.domain.dto.response.JwtResponse;
-import uz.jvh.nextpizza.domain.dto.response.LoginDto;
-import uz.jvh.nextpizza.domain.dto.response.UserResponse;
-import uz.jvh.nextpizza.domain.entity.User;
+import uz.jvh.nextpizza.dto.request.UserRequest;
+import uz.jvh.nextpizza.dto.response.JwtResponse;
+import uz.jvh.nextpizza.dto.response.LoginDto;
+import uz.jvh.nextpizza.dto.response.UserResponse;
+import uz.jvh.nextpizza.entity.User;
 
-import uz.jvh.nextpizza.domain.exception.CustomException;
+import uz.jvh.nextpizza.exception.CustomException;
 import uz.jvh.nextpizza.security.JwtTokenUtil;
 
 

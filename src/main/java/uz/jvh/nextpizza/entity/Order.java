@@ -1,8 +1,7 @@
-package uz.jvh.nextpizza.domain.entity;
+package uz.jvh.nextpizza.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import uz.jvh.nextpizza.domain.enomerator.DrinkType;
 
 import java.time.LocalDateTime;
 import java.util.List;

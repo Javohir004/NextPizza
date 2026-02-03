@@ -3,11 +3,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.jvh.nextpizza.domain.dto.request.FoodRequest;
-import uz.jvh.nextpizza.domain.dto.response.FoodResponse;
-import uz.jvh.nextpizza.domain.enomerator.FoodType;
-import uz.jvh.nextpizza.domain.entity.Pizza;
-import uz.jvh.nextpizza.domain.exception.CustomException;
+import uz.jvh.nextpizza.dto.request.FoodRequest;
+import uz.jvh.nextpizza.dto.response.FoodResponse;
+import uz.jvh.nextpizza.enomerator.FoodType;
+import uz.jvh.nextpizza.entity.Pizza;
+import uz.jvh.nextpizza.exception.CustomException;
 import uz.jvh.nextpizza.repository.FoodRepository;
 
 import java.util.List;
