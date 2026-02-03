@@ -43,4 +43,4 @@ Loyiha real biznes mantiqqa yaqin qilib ishlab chiqilgan va **role-based access 
 - **PostgreSQL**
 - **REST API**
 - **Lombok**
-- **Maven / Gradle**
+- **Gradle**
