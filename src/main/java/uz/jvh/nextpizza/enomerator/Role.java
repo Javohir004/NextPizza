@@ -1,6 +1,6 @@
 package uz.jvh.nextpizza.enomerator;
 
-public enum UserRole {
+public enum Role {
 
     ADMIN , USER , ADMINISTRATOR;
 }

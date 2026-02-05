@@ -1,12 +1,16 @@
 package uz.jvh.nextpizza.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import uz.jvh.nextpizza.enomerator.UserRole;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import uz.jvh.nextpizza.enomerator.Role;
 
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -16,17 +20,18 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class User extends BaseEntity {
-    @Column(unique = true, nullable = false)
-    private String username;
+public class User extends BaseEntity implements UserDetails {
 
-    private String surname;
+    @Column(unique = true, nullable = false)
+    private String firstName;
+
+    private String lastName;
 
     @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private Role role;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -43,7 +48,36 @@ public class User extends BaseEntity {
 
     private String address;
 
+    private boolean enabled = true;
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

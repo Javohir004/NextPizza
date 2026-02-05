@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.jvh.nextpizza.dto.request.UserRequest;
 import uz.jvh.nextpizza.dto.response.UserResponse;
-import uz.jvh.nextpizza.enomerator.UserRole;
+import uz.jvh.nextpizza.enomerator.Role;
 import uz.jvh.nextpizza.entity.User;
-import uz.jvh.nextpizza.exception.CustomException;
+import uz.jvh.nextpizza.exception.UserNotFoundException;
 import uz.jvh.nextpizza.repository.OrderRepository;
 import uz.jvh.nextpizza.repository.UserRepository;
 
@@ -42,25 +42,25 @@ public class UserService {
 
     public User findByUsername(String username) {
         User userEntity = userRepository.findByUsernameAndIsActiveTrue(username)
-                .orElseThrow(() -> new CustomException("Username " + username + " not found", 4002, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new UserNotFoundException("Username " + username + " not found"));
         return userEntity;
     }
 
 
-    public List<User> findByRole(UserRole role) {
+    public List<User> findByRole(Role role) {
         return userRepository.findByRoleAndIsActiveTrueOrderByCreatedDesc(role);
     }
 
     public User findByIdJ(UUID id) {
         return userRepository.findById(id).
-                orElseThrow(() -> new CustomException("User  not found", 4002, HttpStatus.NOT_FOUND));
+                orElseThrow(() -> new UserNotFoundException("UserId " + id + " not found"));
     }
 
     public List<User> findAllJ() {
         List<User> allUsers = userRepository.findAllByIsActiveTrueOrderByCreatedDesc();
 
         return allUsers.stream()
-                .filter(user -> user.getRole().equals(UserRole.USER))
+                .filter(user -> user.getRole().equals(Role.USER))
                 .collect(Collectors.toList());
     }
 
@@ -71,8 +71,8 @@ public class UserService {
         if (userRequest.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         }
-        user.setUsername(userRequest.getUsername() != null ? userRequest.getUsername() : user.getUsername());
-        user.setSurname(userRequest.getSurname() != null ? userRequest.getSurname() : user.getSurname());
+        user.setFirstName(userRequest.getUsername() != null ? userRequest.getUsername() : user.getUsername());
+        user.setLastName(userRequest.getSurname() != null ? userRequest.getSurname() : user.getLastName());
         user.setEmail(userRequest.getEmail() != null ? userRequest.getEmail() : user.getEmail());
         user.setPhoneNumber(userRequest.getPhoneNumber() != null ? userRequest.getPhoneNumber() : user.getPhoneNumber());
         user.setRole(userRequest.getRole() != null ? userRequest.getRole() : user.getRole());
@@ -83,8 +83,8 @@ public class UserService {
     }
 
     public Double getUserBalance(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() ->
-                new CustomException("User  not found", 4002, HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new UserNotFoundException("UserId " + id + " not found"));
         return user.getBalance();
     }
 
@@ -92,7 +92,7 @@ public class UserService {
     @Transactional
     public void deleteUser(UUID userId) {
         User user = userRepository.findById(userId).
-                orElseThrow(() -> new CustomException("Username  not found", 4002, HttpStatus.NOT_FOUND));
+                orElseThrow(() -> new UserNotFoundException("UserId " + userId + " not found"));;
 
         user.setActive(false);
         userRepository.save(user);
@@ -101,8 +101,8 @@ public class UserService {
 
     public User mapRequestToEntity(UserRequest userRequest) {
         return User.builder()
-                .username(userRequest.getUsername())
-                .surname(userRequest.getSurname())
+                .firstName(userRequest.getUsername())
+                .lastName(userRequest.getSurname())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .role(userRequest.getRole())
                 .email(userRequest.getEmail())
@@ -118,7 +118,7 @@ public class UserService {
         return UserResponse.builder()
                 .uuid(user.getId())
                 .username(user.getUsername())
-                .surname(user.getSurname())
+                .surname(user.getLastName())
                 .role(user.getRole())
                 .email(user.getEmail())
                 .birthDate(user.getBirthDate())

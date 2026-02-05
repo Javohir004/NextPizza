@@ -5,9 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.jvh.nextpizza.dto.request.UserRequest;
 import uz.jvh.nextpizza.dto.response.UserResponse;
-import uz.jvh.nextpizza.enomerator.UserRole;
+import uz.jvh.nextpizza.enomerator.Role;
 import uz.jvh.nextpizza.entity.User;
-import uz.jvh.nextpizza.service.AuthService;
 import uz.jvh.nextpizza.service.UserService;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final AuthService authService;
 
     @PutMapping("/update/{id}")
     public User updateUser(@PathVariable("id") UUID id, @RequestBody UserRequest userRequest) {
@@ -34,16 +32,9 @@ public class UserController {
 
 
     @GetMapping("/User-role/{role}/owner")
-    public ResponseEntity<List<User>> getUsersByRole(@PathVariable UserRole role) {
+    public ResponseEntity<List<User>> getUsersByRole(@PathVariable Role role) {
         List<User> users = userService.findByRole(role);
         return ResponseEntity.ok(users);
-    }
-
-
-
-    @PostMapping("/create-admin")
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userCreateDTO) {
-        return ResponseEntity.ok(authService.save(userCreateDTO));
     }
 
 

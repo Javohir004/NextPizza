@@ -7,7 +7,6 @@ import uz.jvh.nextpizza.dto.request.FoodRequest;
 import uz.jvh.nextpizza.dto.response.FoodResponse;
 import uz.jvh.nextpizza.enomerator.FoodType;
 import uz.jvh.nextpizza.entity.Pizza;
-import uz.jvh.nextpizza.exception.CustomException;
 import uz.jvh.nextpizza.repository.FoodRepository;
 
 import java.util.List;
@@ -28,8 +27,7 @@ public class FoodService {
     }
 
     public Pizza findFoodById(UUID id) {
-        return foodRepository.findById(id).
-                orElseThrow(() -> new CustomException("Food not found", 4002, HttpStatus.NOT_FOUND));
+        return foodRepository.findById(id).orElseThrow(null);
     }
 
     public List<FoodResponse> searchFoods(String name, Double minPrice, Double maxPrice, FoodType foodType) {

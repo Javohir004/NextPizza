@@ -2,7 +2,7 @@ package uz.jvh.nextpizza.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import uz.jvh.nextpizza.enomerator.UserRole;
+import uz.jvh.nextpizza.enomerator.Role;
 import uz.jvh.nextpizza.entity.User;
 
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
 
 
-    List<User> findByRoleAndIsActiveTrueOrderByCreatedDesc(UserRole role);
+    List<User> findByRoleAndIsActiveTrueOrderByCreatedDesc(Role role);
 
 
     Optional<User> findByUsernameAndIsActiveTrue(String username);
@@ -22,5 +22,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findAllByIsActiveTrueOrderByCreatedDesc();
 
+
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 
 }
