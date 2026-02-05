@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @Builder
 public class UserResponse {
-    private UUID uuid;
+    private Long uuid;
     private String username;
     private String surname;
     private String password;

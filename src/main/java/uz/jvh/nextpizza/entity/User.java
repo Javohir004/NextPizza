@@ -34,15 +34,14 @@ public class User extends BaseEntity {
     private LocalDate birthDate;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^\\+998\\s?\\d{9}$", message = "Phone number must start with +998, followed by 9 digits, and may have an optional space.")
+//    @Pattern(regexp = "^\\+998\\s?\\d{9}$", message = "Phone number must start with +998, followed by 9 digits, and may have an optional space.")
     private String phoneNumber;
 
 
     @Builder.Default
     private Double balance = 0.0;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
+    private String address;
 
 
 

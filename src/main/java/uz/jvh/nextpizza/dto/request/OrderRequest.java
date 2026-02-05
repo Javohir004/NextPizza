@@ -1,7 +1,6 @@
 package uz.jvh.nextpizza.dto.request;
 
 import lombok.*;
-import uz.jvh.nextpizza.entity.Address;
 import uz.jvh.nextpizza.entity.Pizza;
 import uz.jvh.nextpizza.entity.User;
 
@@ -18,6 +17,6 @@ public class OrderRequest {
     private double price;
     private User user;
     private List<Pizza> pizzas;
-    private Address deliveryAddress;
+    private String deliveryAddress;
 }
 

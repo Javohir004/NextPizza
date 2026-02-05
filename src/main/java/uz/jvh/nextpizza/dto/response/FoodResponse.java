@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 public class FoodResponse {
 
-    private UUID foodId;
+    private Long foodId;
 
     private String name;
 
