@@ -15,6 +15,6 @@ import java.util.UUID;
 @Setter
 public class JwtResponse {
     private String token;
-    private UUID userId;
+    private Long userId;
     private UserRole userRole;
 }

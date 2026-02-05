@@ -41,6 +41,5 @@ public class Order extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Drinks> drinks;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address deliveryAddress;
+    private String deliveryAddress;
 }
