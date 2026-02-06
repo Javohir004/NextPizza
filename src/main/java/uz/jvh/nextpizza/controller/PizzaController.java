@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@RequestMapping("/api/food")
+@RequestMapping("/api/pizza")
 @RestController
 @RequiredArgsConstructor
-public class foodController {
+public class PizzaController {
 
     private final PizzaService pizzaService;
 
