@@ -1,11 +1,10 @@
 package uz.jvh.nextpizza.dto.response;
 
 import lombok.*;
-import uz.jvh.nextpizza.enomerator.UserRole;
+import uz.jvh.nextpizza.enomerator.Role;
 
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +16,7 @@ public class UserResponse {
     private String username;
     private String surname;
     private String password;
-    private UserRole role;
+    private Role role;
     private String email;
     private LocalDate birthDate;
     private String phoneNumber;
