@@ -47,6 +47,10 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .phoneNumber(request.getPhoneNumber())
+                .balance(request.getBalance())
+                .address(request.getAddress())
+                .birthDate(request.getBirthDate())
                 .role(Role.USER)
                 .enabled(true)
                 .build();

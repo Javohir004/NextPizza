@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.jvh.nextpizza.enomerator.Role;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -24,5 +27,10 @@ public class RegisterRequest {
 
     private String firstName;
     private String lastName;
+
+    private LocalDate birthDate;
+    private String phoneNumber;
+    private Double balance = 0.0;
+    private String address;
 
 }

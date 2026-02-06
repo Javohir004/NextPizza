@@ -18,7 +18,6 @@ import uz.jvh.nextpizza.repository.UserRepository;
 
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 ;
@@ -51,7 +50,7 @@ public class UserService {
         return userRepository.findByRoleAndIsActiveTrueOrderByCreatedDesc(role);
     }
 
-    public User findByIdJ(UUID id) {
+    public User findByIdJ(Long id) {
         return userRepository.findById(id).
                 orElseThrow(() -> new UserNotFoundException("UserId " + id + " not found"));
     }
@@ -66,7 +65,7 @@ public class UserService {
 
 
     @Transactional
-    public User update(UUID id, UserRequest userRequest) {
+    public User update(Long id, UserRequest userRequest) {
         User user = findByIdJ(id);
         if (userRequest.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
@@ -82,7 +81,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Double getUserBalance(UUID id) {
+    public Double getUserBalance(Long id) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new UserNotFoundException("UserId " + id + " not found"));
         return user.getBalance();
@@ -90,7 +89,7 @@ public class UserService {
 
 
     @Transactional
-    public void deleteUser(UUID userId) {
+    public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).
                 orElseThrow(() -> new UserNotFoundException("UserId " + userId + " not found"));;
 

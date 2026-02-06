@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/update/{id}")
-    public User updateUser(@PathVariable("id") UUID id, @RequestBody UserRequest userRequest) {
+    public User updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
         return userService.update(id, userRequest);
     }
 
@@ -39,21 +39,21 @@ public class UserController {
 
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.ok("Foydalanuvchi muvaffaqiyatli o'chirildi.");
     }
 
 
     @GetMapping("/find-by-id/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable UUID userId) {
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         User user = userService.findByIdJ(userId);
         return ResponseEntity.ok(user);
     }
 
 
     @GetMapping("/my-balance")
-    public ResponseEntity<Double> getUserBalance(@RequestParam UUID userId) {
+    public ResponseEntity<Double> getUserBalance(@RequestParam Long userId) {
         Double userBalance = userService.getUserBalance(userId);
         return ResponseEntity.ok(userBalance);
     }
