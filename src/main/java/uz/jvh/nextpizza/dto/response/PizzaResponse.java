@@ -1,17 +1,17 @@
 package uz.jvh.nextpizza.dto.response;
 
 import lombok.*;
-import uz.jvh.nextpizza.enomerator.FoodType;
+import uz.jvh.nextpizza.enomerator.PizzaType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class FoodResponse {
+public class PizzaResponse {
 
     private Long foodId;
 
@@ -19,9 +19,11 @@ public class FoodResponse {
 
     private String description;
 
-    private FoodType foodType;
+    private PizzaType pizzaType;
 
-    private double price;
+    private BigDecimal price;
+
+    private String imageUrl;
 
     private LocalDateTime createDate;
 }

@@ -1,6 +1,6 @@
 package uz.jvh.nextpizza.enomerator;
 
-public enum FoodType {
+public enum PizzaType {
     /**
      * Klassik pitsa turlari (masalan: Margarita, Pepperoni).
      */
