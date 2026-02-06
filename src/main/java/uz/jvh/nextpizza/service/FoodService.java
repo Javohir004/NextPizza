@@ -85,4 +85,8 @@ public class FoodService {
                 .createDate(pizza.getCreated())
                 .build();
     }
+
+    public List<FoodResponse> getFood() {
+        return null;
+    }
 }

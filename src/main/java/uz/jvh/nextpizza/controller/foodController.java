@@ -19,18 +19,22 @@ public class foodController {
     private final FoodService foodService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<FoodResponse>> searchFoods(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) FoodType foodType
-    ) {
+    public ResponseEntity<List<FoodResponse>> searchFoods(@RequestParam(required = false) String name,
+                                                          @RequestParam(required = false) Double minPrice,
+                                                          @RequestParam(required = false) Double maxPrice,
+                                                          @RequestParam(required = false) FoodType foodType) {
         return ResponseEntity.ok(foodService.searchFoods(name, minPrice, maxPrice, foodType));
+    }
+
+    @GetMapping("/get-foods")
+    public ResponseEntity<List<FoodResponse>> searchFoods(){
+       return ResponseEntity.ok(foodService.getFood()) ;
     }
 
 
     @PutMapping("/update/{id}")
-    public FoodResponse updateUser(@PathVariable("id") UUID id, @RequestBody FoodRequest foodRequest) {
+    public FoodResponse update(@PathVariable("id") UUID id,
+                                   @RequestBody FoodRequest foodRequest) {
         return foodService.updateFood(id, foodRequest);
     }
 
