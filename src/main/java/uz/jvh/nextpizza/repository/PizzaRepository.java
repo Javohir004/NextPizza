@@ -13,10 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface FoodRepository extends JpaRepository<Pizza, UUID> {
+public interface PizzaRepository extends JpaRepository<Pizza, Long> {
 
 
-    @Query("SELECT f FROM foods f WHERE " +
+    @Query("SELECT f FROM pizzas f WHERE " +
+            "f.isActive = true AND " +  // ← Qo'shildi
             "(:name IS NULL OR LOWER(f.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
             "(:minPrice IS NULL OR f.price >= :minPrice) AND " +
             "(:maxPrice IS NULL OR f.price <= :maxPrice) AND " +
@@ -35,4 +36,5 @@ public interface FoodRepository extends JpaRepository<Pizza, UUID> {
     // Bitta type bo'yicha
     List<Pizza> findAllByIsActiveTrueAndPizzaTypeOrderByPriceAsc(PizzaType type);
 
+    boolean existsByNameIgnoreCase(String name);
 }

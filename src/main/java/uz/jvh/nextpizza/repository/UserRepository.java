@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRoleAndIsActiveTrueOrderByCreatedDesc(Role role);
 
 
+
     Optional<User> findByFirstNameAndIsActiveTrue(String username);
 
 

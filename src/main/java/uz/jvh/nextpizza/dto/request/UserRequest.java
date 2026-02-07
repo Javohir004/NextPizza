@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @Builder
 public class UserRequest {
 
-    private String username;
-    private String surname;
+    private String firstName;
+    private String lastName;
     private String password;
     private Role role;
     private String email;
@@ -22,7 +22,6 @@ public class UserRequest {
     private String phoneNumber;
     private Double balance = 0.0;
     private String address;
-    private String passportSeries;
 
 
 }
