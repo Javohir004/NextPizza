@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface FoodRepository extends JpaRepository<Pizza, UUID> {
 
 
-    @Query("SELECT f FROM foods f WHERE " +
+    @Query("SELECT f FROM pizzas f WHERE " +
             "(:name IS NULL OR LOWER(f.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
             "(:minPrice IS NULL OR f.price >= :minPrice) AND " +
             "(:maxPrice IS NULL OR f.price <= :maxPrice) AND " +
