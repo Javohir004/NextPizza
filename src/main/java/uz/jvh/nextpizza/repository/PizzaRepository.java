@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface FoodRepository extends JpaRepository<Pizza, UUID> {
+public interface PizzaRepository extends JpaRepository<Pizza, Long> {
 
 
     @Query("SELECT f FROM pizzas f WHERE " +

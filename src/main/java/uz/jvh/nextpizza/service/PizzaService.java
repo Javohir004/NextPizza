@@ -1,4 +1,5 @@
 package uz.jvh.nextpizza.service;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -6,7 +7,8 @@ import uz.jvh.nextpizza.dto.request.PizzaRequest;
 import uz.jvh.nextpizza.dto.response.PizzaResponse;
 import uz.jvh.nextpizza.enomerator.PizzaType;
 import uz.jvh.nextpizza.entity.Pizza;
-import uz.jvh.nextpizza.repository.FoodRepository;
+import uz.jvh.nextpizza.exception.PizzaNotFoundException;
+import uz.jvh.nextpizza.repository.PizzaRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,38 +21,35 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PizzaService {
 
-    private final FoodRepository foodRepository;
+    private final PizzaRepository pizzaRepository;
 
     @Transactional
     public PizzaResponse createFood(PizzaRequest pizzaRequest) {
         return toPizzaResponse(
-                foodRepository.save(
+                pizzaRepository.save(
                         mapRequestToEntity(pizzaRequest)));
     }
 
-    public Pizza findFoodById(UUID id) {
-        return foodRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pizza topilmadi: " + id));
-    }
-
     public List<PizzaResponse> searchFoods(String name, BigDecimal minPrice, BigDecimal maxPrice, PizzaType pizzaType) {
-        List<Pizza> pizzas = foodRepository.searchFoods(name, minPrice, maxPrice, pizzaType);
+        List<Pizza> pizzas = pizzaRepository.searchFoods(name, minPrice, maxPrice, pizzaType);
         return pizzas.stream()
                 .map(this::toPizzaResponse)
                 .toList();
     }
 
     @Transactional
-    public void deleteFoodById(UUID id) {
-        Pizza pizza = findFoodById(id);
+    public void deleteFoodById(Long id) {
+        Pizza pizza = pizzaRepository.findById(id)
+                .orElseThrow(() -> new PizzaNotFoundException("Pizza not found id: " + id));
         pizza.setActive(false);
-        foodRepository.save(pizza);
+        pizzaRepository.save(pizza);
         // flush() kerak emas - @Transactional avtomatik commit qiladi
     }
 
     @Transactional
-    public PizzaResponse updateFood(UUID foodId, PizzaRequest pizzaRequest) {
-        Pizza pizza = findFoodById(foodId);
+    public PizzaResponse updateFood(Long id, PizzaRequest pizzaRequest) {
+        Pizza pizza = pizzaRepository.findById(id)
+                .orElseThrow(() -> new PizzaNotFoundException("Pizza not found id: " + id));
 
         if (pizzaRequest == null) {
             return toPizzaResponse(pizza);
@@ -62,13 +61,13 @@ public class PizzaService {
         Optional.ofNullable(pizzaRequest.getPizzaType()).ifPresent(pizza::setPizzaType);
         Optional.ofNullable(pizzaRequest.getImageUrl()).ifPresent(pizza::setImageUrl);
 
-        return toPizzaResponse(foodRepository.save(pizza));
+        return toPizzaResponse(pizzaRepository.save(pizza));
     }
 
 
     // Barcha faol pitsalarni type bo'yicha guruhlash
     public Map<PizzaType, List<PizzaResponse>> getAllPizzas() {
-        List<Pizza> pizzas = foodRepository.findAllByIsActiveTrueOrderByPizzaTypeAscNameAsc();
+        List<Pizza> pizzas = pizzaRepository.findAllByIsActiveTrueOrderByPizzaTypeAscNameAsc();
 
         return pizzas.stream()
                 .map(this::toPizzaResponse)
@@ -77,7 +76,7 @@ public class PizzaService {
 
     // Oddiy list (type bo'yicha saralangan)
     public List<PizzaResponse> getAllPizzasList() {
-        List<Pizza> pizzas = foodRepository.findAllByIsActiveTrueOrderByPizzaTypeAscPriceAsc();
+        List<Pizza> pizzas = pizzaRepository.findAllByIsActiveTrueOrderByPizzaTypeAscPriceAsc();
 
         return pizzas.stream()
                 .map(this::toPizzaResponse)
@@ -86,7 +85,7 @@ public class PizzaService {
 
     // Bitta type bo'yicha
     public List<PizzaResponse> getPizzasByType(PizzaType type) {
-        List<Pizza> pizzas = foodRepository.findAllByIsActiveTrueAndPizzaTypeOrderByPriceAsc(type);
+        List<Pizza> pizzas = pizzaRepository.findAllByIsActiveTrueAndPizzaTypeOrderByPriceAsc(type);
 
         return pizzas.stream()
                 .map(this::toPizzaResponse)

@@ -44,6 +44,17 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Pizza topilmadi exception
+     */
+    @ExceptionHandler(PizzaNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePizzaNotFound(RuntimeException ex, HttpServletRequest request) {
+        ErrorResponse errorResponse = ErrorResponse.builder().timestamp(LocalDateTime.now()).status(HttpStatus.NOT_FOUND.value())
+                .error("Not Found").message(ex.getMessage()).path(request.getRequestURI()).build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    /**
      * Noto'g'ri login/parol exception
      */
     @ExceptionHandler({InvalidCredentialsException.class, BadCredentialsException.class})
@@ -108,4 +119,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+
+
 }

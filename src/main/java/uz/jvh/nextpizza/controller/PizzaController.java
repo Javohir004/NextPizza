@@ -11,7 +11,6 @@ import uz.jvh.nextpizza.service.PizzaService;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RequestMapping("/api/pizza")
 @RestController
@@ -47,7 +46,7 @@ public class PizzaController {
     }
 
     @PutMapping("/update/{id}")
-    public PizzaResponse update(@PathVariable("id") UUID id, @RequestBody PizzaRequest pizzaRequest) {
+    public PizzaResponse update(@PathVariable("id") Long id, @RequestBody PizzaRequest pizzaRequest) {
         return pizzaService.updateFood(id, pizzaRequest);
     }
 
@@ -58,7 +57,7 @@ public class PizzaController {
 
 
     @DeleteMapping("/delete/{foodId}")
-    public ResponseEntity<String> deleteUser(@PathVariable UUID foodId) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long foodId) {
         pizzaService.deleteFoodById(foodId);
         return ResponseEntity.ok("Foydalanuvchi muvaffaqiyatli o'chirildi.");
     }
