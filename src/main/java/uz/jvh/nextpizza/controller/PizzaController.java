@@ -51,7 +51,7 @@ public class PizzaController {
         return pizzaService.updateFood(id, pizzaRequest);
     }
 
-    @PostMapping("/create-food")
+    @PostMapping("/create-pizza")
     public ResponseEntity<PizzaResponse> createUser(@RequestBody PizzaRequest pizzaRequest) {
         return ResponseEntity.ok(pizzaService.createFood(pizzaRequest));
     }
