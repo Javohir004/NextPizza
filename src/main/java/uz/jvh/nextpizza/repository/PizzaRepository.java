@@ -17,6 +17,7 @@ public interface PizzaRepository extends JpaRepository<Pizza, Long> {
 
 
     @Query("SELECT f FROM pizzas f WHERE " +
+            "f.isActive = true AND " +  // ← Qo'shildi
             "(:name IS NULL OR LOWER(f.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
             "(:minPrice IS NULL OR f.price >= :minPrice) AND " +
             "(:maxPrice IS NULL OR f.price <= :maxPrice) AND " +
@@ -35,4 +36,5 @@ public interface PizzaRepository extends JpaRepository<Pizza, Long> {
     // Bitta type bo'yicha
     List<Pizza> findAllByIsActiveTrueAndPizzaTypeOrderByPriceAsc(PizzaType type);
 
+    boolean existsByNameIgnoreCase(String name);
 }

@@ -59,7 +59,7 @@ public class PizzaController {
     @DeleteMapping("/delete/{foodId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long foodId) {
         pizzaService.deleteFoodById(foodId);
-        return ResponseEntity.ok("Foydalanuvchi muvaffaqiyatli o'chirildi.");
+        return ResponseEntity.ok("Pizza muvaffaqiyatli o'chirildi.");
     }
 
 

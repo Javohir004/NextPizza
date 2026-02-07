@@ -18,6 +18,7 @@ import uz.jvh.nextpizza.repository.UserRepository;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 ;
@@ -50,12 +51,12 @@ public class UserService {
         return userRepository.findByRoleAndIsActiveTrueOrderByCreatedDesc(role);
     }
 
-    public User findByIdJ(Long id) {
+    public User findById(Long id) {
         return userRepository.findById(id).
                 orElseThrow(() -> new UserNotFoundException("UserId " + id + " not found"));
     }
 
-    public List<User> findAllJ() {
+    public List<User> findAll() {
         List<User> allUsers = userRepository.findAllByIsActiveTrueOrderByCreatedDesc();
 
         return allUsers.stream()
@@ -66,18 +67,36 @@ public class UserService {
 
     @Transactional
     public User update(Long id, UserRequest userRequest) {
-        User user = findByIdJ(id);
-        if (userRequest.getPassword() != null) {
+        User user = findById(id);
+
+        // Password alohida (encoding kerak)
+        if (userRequest.getPassword() != null && !userRequest.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         }
-        user.setFirstName(userRequest.getUsername() != null ? userRequest.getUsername() : user.getUsername());
-        user.setLastName(userRequest.getSurname() != null ? userRequest.getSurname() : user.getLastName());
-        user.setEmail(userRequest.getEmail() != null ? userRequest.getEmail() : user.getEmail());
-        user.setPhoneNumber(userRequest.getPhoneNumber() != null ? userRequest.getPhoneNumber() : user.getPhoneNumber());
-        user.setRole(userRequest.getRole() != null ? userRequest.getRole() : user.getRole());
-        user.setBirthDate(userRequest.getBirthDate() != null ? userRequest.getBirthDate() : user.getBirthDate());
-        user.setBalance(userRequest.getBalance() != null ? userRequest.getBalance() : user.getBalance());
 
+        // Email uniqueness tekshirish
+        if (userRequest.getEmail() != null && !userRequest.getEmail().equals(user.getEmail())) {
+            if (userRepository.existsByEmail(userRequest.getEmail())) {
+                throw new RuntimeException("Bu email allaqachon band: " + userRequest.getEmail());
+            }
+            user.setEmail(userRequest.getEmail());
+        }
+
+
+        // Oddiy fieldlar (Optional bilan qisqaroq)
+        Optional.ofNullable(userRequest.getFirstName()).ifPresent(user::setFirstName);
+        Optional.ofNullable(userRequest.getLastName()).ifPresent(user::setLastName);
+        Optional.ofNullable(userRequest.getBirthDate()).ifPresent(user::setBirthDate);
+        Optional.ofNullable(userRequest.getBalance()).ifPresent(user::setBalance);
+        Optional.ofNullable(userRequest.getAddress()).ifPresent(user::setAddress);
+        Optional.ofNullable(userRequest.getRole()).ifPresent(user::setRole);
+        Optional.ofNullable(userRequest.getPhoneNumber()).ifPresent(user::setPhoneNumber);
+
+        // Role - faqat OWNER o'zgartira oladi (Security tekshirish kerak)
+        if (userRequest.getRole() != null) {
+            // Bu yerda current user role tekshirish kerak
+            user.setRole(userRequest.getRole());
+        }
         return userRepository.save(user);
     }
 
@@ -95,13 +114,12 @@ public class UserService {
 
         user.setActive(false);
         userRepository.save(user);
-        userRepository.flush();
     }
 
     public User mapRequestToEntity(UserRequest userRequest) {
         return User.builder()
-                .firstName(userRequest.getUsername())
-                .lastName(userRequest.getSurname())
+                .firstName(userRequest.getFirstName())
+                .lastName(userRequest.getLastName())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .role(userRequest.getRole())
                 .email(userRequest.getEmail())

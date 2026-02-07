@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/all-user")
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAllJ();
+        List<User> users = userService.findAll();
         return ResponseEntity.ok(users);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping("/find-by-id/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        User user = userService.findByIdJ(userId);
+        User user = userService.findById(userId);
         return ResponseEntity.ok(user);
     }
 

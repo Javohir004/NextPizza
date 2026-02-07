@@ -7,6 +7,7 @@ import uz.jvh.nextpizza.dto.request.PizzaRequest;
 import uz.jvh.nextpizza.dto.response.PizzaResponse;
 import uz.jvh.nextpizza.enomerator.PizzaType;
 import uz.jvh.nextpizza.entity.Pizza;
+import uz.jvh.nextpizza.exception.PizzaAlreadyExistsException;
 import uz.jvh.nextpizza.exception.PizzaNotFoundException;
 import uz.jvh.nextpizza.repository.PizzaRepository;
 
@@ -25,6 +26,10 @@ public class PizzaService {
 
     @Transactional
     public PizzaResponse createFood(PizzaRequest pizzaRequest) {
+        if (pizzaRepository.existsByNameIgnoreCase(pizzaRequest.getName())) {
+            throw new PizzaAlreadyExistsException("Bu nomdagi pizza allaqachon mavjud: " + pizzaRequest.getName());
+        }
+
         return toPizzaResponse(
                 pizzaRepository.save(
                         mapRequestToEntity(pizzaRequest)));
