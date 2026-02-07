@@ -23,7 +23,6 @@ public class UserController {
         return userService.update(id, userRequest);
     }
 
-
     @GetMapping("/all-user")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAll();
