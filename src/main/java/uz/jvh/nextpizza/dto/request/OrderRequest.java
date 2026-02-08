@@ -4,6 +4,7 @@ import lombok.*;
 import uz.jvh.nextpizza.entity.Pizza;
 import uz.jvh.nextpizza.entity.User;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 public class OrderRequest {
     private LocalDateTime orderDate;
-    private double price;
+    private BigDecimal price;
     private User user;
     private List<Pizza> pizzas;
     private String deliveryAddress;

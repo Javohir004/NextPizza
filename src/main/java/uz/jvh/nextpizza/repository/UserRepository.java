@@ -13,16 +13,11 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-
     List<User> findByRoleAndIsActiveTrueOrderByCreatedDesc(Role role);
-
-
 
     Optional<User> findByFirstNameAndIsActiveTrue(String username);
 
-
     List<User> findAllByIsActiveTrueOrderByCreatedDesc();
-
 
     Optional<User> findByEmail(String email);
 
