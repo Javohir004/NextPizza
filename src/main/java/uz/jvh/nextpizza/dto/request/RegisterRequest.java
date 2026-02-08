@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.jvh.nextpizza.enomerator.Role;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -30,7 +31,7 @@ public class RegisterRequest {
 
     private LocalDate birthDate;
     private String phoneNumber;
-    private Double balance = 0.0;
+    private BigDecimal balance;
     private String address;
 
 }
