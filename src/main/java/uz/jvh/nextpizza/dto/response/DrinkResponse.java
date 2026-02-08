@@ -13,9 +13,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DrinkResponse {
+    private Long id;
     private String drinkName;
     private DrinkType drinkType;
     private Double volume;
     private BigDecimal price;
     private String imageUrl;
+    private boolean active;
 }
