@@ -26,6 +26,8 @@ public class ErrorResponse {
 
     private String path;
 
+    private String details;
+
     private List<ValidationError> validationErrors;
 
     @Data

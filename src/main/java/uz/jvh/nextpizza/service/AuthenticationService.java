@@ -9,13 +9,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.jvh.nextpizza.NextPizzaApplication;
 import uz.jvh.nextpizza.dto.request.LoginRequest;
 import uz.jvh.nextpizza.dto.request.RegisterRequest;
 import uz.jvh.nextpizza.dto.response.AuthenticationResponse;
+import uz.jvh.nextpizza.enomerator.ErrorCode;
 import uz.jvh.nextpizza.entity.User;
-import uz.jvh.nextpizza.exception.InvalidCredentialsException;
-import uz.jvh.nextpizza.exception.UserAlreadyExistsException;
-import uz.jvh.nextpizza.exception.UserNotFoundException;
+import uz.jvh.nextpizza.exception.NextPizzaException;
 import uz.jvh.nextpizza.repository.UserRepository;
 import uz.jvh.nextpizza.enomerator.Role;
 
@@ -36,9 +36,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         // Email mavjudligini tekshirish
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException(
-                    "Bu email allaqachon ro'yxatdan o'tgan: " + request.getEmail()
-            );
+            throw new NextPizzaException(ErrorCode.EMAIL_ALREADY_EXISTS, request.getEmail());
         }
 
         // Yangi user yaratish
@@ -80,14 +78,12 @@ public class AuthenticationService {
                     )
             );
         } catch (BadCredentialsException ex) {
-            throw new InvalidCredentialsException("Email yoki parol noto'g'ri");
+            throw new NextPizzaException(ErrorCode.INVALID_CREDENTIALS, ex.getMessage());
         }
 
         // User topish
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(
-                        "Foydalanuvchi topilmadi: " + request.getEmail()
-                ));
+                .orElseThrow(() -> new NextPizzaException(ErrorCode.USER_NOT_FOUND, request.getEmail()));
 
         // Token yaratish
         var jwtToken = jwtService.generateToken(user);

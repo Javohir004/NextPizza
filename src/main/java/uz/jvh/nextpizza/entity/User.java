@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import uz.jvh.nextpizza.enomerator.Role;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +45,7 @@ public class User extends BaseEntity implements UserDetails {
 
 
     @Builder.Default
-    private Double balance = 0.0;
+    private BigDecimal balance = BigDecimal.ZERO;
 
     private String address;
 

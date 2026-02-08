@@ -1,10 +1,15 @@
 package uz.jvh.nextpizza.dto.response;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 import uz.jvh.nextpizza.enomerator.Role;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,16 +17,16 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class UserResponse {
-    private Long uuid;
-    private String username;
-    private String surname;
-    private String password;
+    private Long id;
+    private String firstName;
+    private String lastName;
     private Role role;
     private String email;
     private LocalDate birthDate;
     private String phoneNumber;
-    private boolean enabled;
+    private BigDecimal balance;
     private String address;
-    private LocalDate createDate;
-    private String passportSeries;
+    private boolean enabled;
+    private boolean isActive;
+    private LocalDateTime createdDate;
 }

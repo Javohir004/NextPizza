@@ -21,7 +21,7 @@ public class CartItem extends BaseEntity {
     private Pizza pizza;
 
     @ManyToOne
-    private Drinks drink;
+    private Drink drink;
 
     private Integer quantity;
     private BigDecimal price;

@@ -1,21 +1,19 @@
 package uz.jvh.nextpizza.service;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.jvh.nextpizza.dto.request.PizzaRequest;
 import uz.jvh.nextpizza.dto.response.PizzaResponse;
+import uz.jvh.nextpizza.enomerator.ErrorCode;
 import uz.jvh.nextpizza.enomerator.PizzaType;
 import uz.jvh.nextpizza.entity.Pizza;
-import uz.jvh.nextpizza.exception.PizzaAlreadyExistsException;
-import uz.jvh.nextpizza.exception.PizzaNotFoundException;
+import uz.jvh.nextpizza.exception.NextPizzaException;
 import uz.jvh.nextpizza.repository.PizzaRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +25,7 @@ public class PizzaService {
     @Transactional
     public PizzaResponse createFood(PizzaRequest pizzaRequest) {
         if (pizzaRepository.existsByNameIgnoreCase(pizzaRequest.getName())) {
-            throw new PizzaAlreadyExistsException("Bu nomdagi pizza allaqachon mavjud: " + pizzaRequest.getName());
+            throw new NextPizzaException(ErrorCode.PIZZA_ALREADY_EXISTS ,"Pizza Name: " + pizzaRequest.getName());
         }
 
         return toPizzaResponse(
@@ -45,7 +43,7 @@ public class PizzaService {
     @Transactional
     public void deleteFoodById(Long id) {
         Pizza pizza = pizzaRepository.findById(id)
-                .orElseThrow(() -> new PizzaNotFoundException("Pizza not found id: " + id));
+                .orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND ,"ID: " + id));
         pizza.setActive(false);
         pizzaRepository.save(pizza);
         // flush() kerak emas - @Transactional avtomatik commit qiladi
@@ -54,7 +52,7 @@ public class PizzaService {
     @Transactional
     public PizzaResponse updateFood(Long id, PizzaRequest pizzaRequest) {
         Pizza pizza = pizzaRepository.findById(id)
-                .orElseThrow(() -> new PizzaNotFoundException("Pizza not found id: " + id));
+                .orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND ,"ID: " + id));
 
         if (pizzaRequest == null) {
             return toPizzaResponse(pizza);

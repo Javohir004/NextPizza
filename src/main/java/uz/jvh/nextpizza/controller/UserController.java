@@ -8,6 +8,8 @@ import uz.jvh.nextpizza.dto.response.UserResponse;
 import uz.jvh.nextpizza.enomerator.Role;
 import uz.jvh.nextpizza.entity.User;
 import uz.jvh.nextpizza.service.UserService;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,21 +21,19 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/update/{id}")
-    public User updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
+    public UserResponse updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
         return userService.update(id, userRequest);
     }
 
     @GetMapping("/all-user")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        return ResponseEntity.ok(userService.findAll());
     }
 
 
     @GetMapping("/User-role/{role}/owner")
-    public ResponseEntity<List<User>> getUsersByRole(@PathVariable Role role) {
-        List<User> users = userService.findByRole(role);
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<UserResponse>> getUsersByRole(@PathVariable Role role) {
+        return ResponseEntity.ok(userService.findByRole(role));
     }
 
 
@@ -45,16 +45,14 @@ public class UserController {
 
 
     @GetMapping("/find-by-id/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        User user = userService.findById(userId);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.findById(userId));
     }
 
 
     @GetMapping("/my-balance")
-    public ResponseEntity<Double> getUserBalance(@RequestParam Long userId) {
-        Double userBalance = userService.getUserBalance(userId);
-        return ResponseEntity.ok(userBalance);
+    public ResponseEntity<BigDecimal> getUserBalance(@RequestParam Long userId) {
+        return ResponseEntity.ok(userService.getUserBalance(userId));
     }
 
 

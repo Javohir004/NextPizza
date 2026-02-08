@@ -24,7 +24,7 @@ public class OrderItem extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "drink_id")
-    private Drinks drink;  // Agar drink bo'lsa
+    private Drink drink;  // Agar drink bo'lsa
 
     @Column(name = "product_name", nullable = false)
     private String productName;  // Mahsulot nomi (copy - o'zgarsa ham saqlanadi)

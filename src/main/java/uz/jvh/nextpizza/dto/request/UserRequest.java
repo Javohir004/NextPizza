@@ -4,6 +4,7 @@ import lombok.*;
 import uz.jvh.nextpizza.enomerator.Role;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class UserRequest {
     private String email;
     private LocalDate birthDate;
     private String phoneNumber;
-    private Double balance = 0.0;
+    private BigDecimal balance;
     private String address;
 
 
