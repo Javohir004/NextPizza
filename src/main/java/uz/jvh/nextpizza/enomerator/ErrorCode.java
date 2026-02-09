@@ -26,13 +26,7 @@ public enum ErrorCode {
 
     // ==================== AUTHENTICATION ====================
     INVALID_CREDENTIALS("Login yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED),
-    // ESKI: throw new InvalidCredentialsException("Login yoki parol noto'g'ri")
-    // YANGI: throw new ServiceException(ErrorCode.INVALID_CREDENTIALS)
-
     INVALID_TOKEN("Token yaroqsiz yoki muddati tugagan", HttpStatus.UNAUTHORIZED),
-    // ESKI: throw new InvalidTokenException("Token yaroqsiz")
-    // YANGI: throw new ServiceException(ErrorCode.INVALID_TOKEN, "Token expired")
-
     TOKEN_EXPIRED("Token muddati tugagan", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED("Tizimga kirish kerak", HttpStatus.UNAUTHORIZED),
     FORBIDDEN("Bu amalni bajarish uchun huquq yo'q", HttpStatus.FORBIDDEN),

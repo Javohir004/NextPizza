@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uz.jvh.nextpizza.dto.request.LoginRequest;
-import uz.jvh.nextpizza.dto.request.RegisterRequest;
-import uz.jvh.nextpizza.dto.response.AuthenticationResponse;
-import uz.jvh.nextpizza.service.AuthenticationService;
+import uz.jvh.nextpizza.dto.request.auth.LoginRequest;
+import uz.jvh.nextpizza.dto.request.auth.RegisterRequest;
+import uz.jvh.nextpizza.dto.response.auth.AuthenticationResponse;
+import uz.jvh.nextpizza.service.auth.AuthenticationService;
 
 @RestController
 @RequestMapping("/api/auth")

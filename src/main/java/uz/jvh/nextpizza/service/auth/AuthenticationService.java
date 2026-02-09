@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.service;
+package uz.jvh.nextpizza.service.auth;
 
 
 import lombok.RequiredArgsConstructor;
@@ -9,10 +9,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.jvh.nextpizza.NextPizzaApplication;
-import uz.jvh.nextpizza.dto.request.LoginRequest;
-import uz.jvh.nextpizza.dto.request.RegisterRequest;
-import uz.jvh.nextpizza.dto.response.AuthenticationResponse;
+import uz.jvh.nextpizza.dto.request.auth.LoginRequest;
+import uz.jvh.nextpizza.dto.request.auth.RegisterRequest;
+import uz.jvh.nextpizza.dto.response.auth.AuthenticationResponse;
 import uz.jvh.nextpizza.enomerator.ErrorCode;
 import uz.jvh.nextpizza.entity.User;
 import uz.jvh.nextpizza.exception.NextPizzaException;

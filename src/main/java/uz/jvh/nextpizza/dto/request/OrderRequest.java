@@ -1,6 +1,7 @@
 package uz.jvh.nextpizza.dto.request;
 
 import lombok.*;
+import uz.jvh.nextpizza.dto.response.PizzaResponse;
 import uz.jvh.nextpizza.entity.Pizza;
 import uz.jvh.nextpizza.entity.User;
 
@@ -16,8 +17,8 @@ import java.util.List;
 public class OrderRequest {
     private LocalDateTime orderDate;
     private BigDecimal price;
-    private User user;
-    private List<Pizza> pizzas;
+    private Long userId;
+    private List<PizzaResponse> pizzas;
     private String deliveryAddress;
 }
 
