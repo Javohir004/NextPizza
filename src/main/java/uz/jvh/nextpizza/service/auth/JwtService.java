@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.service;
+package uz.jvh.nextpizza.service.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

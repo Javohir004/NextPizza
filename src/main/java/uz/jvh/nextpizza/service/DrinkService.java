@@ -77,6 +77,11 @@ public class DrinkService {
         return drinkToResponse(drink);
     }
 
+    public Drink findById(Long id) {
+        return drinkRepository.findById(id).
+                orElseThrow(() -> new NextPizzaException(ErrorCode.DRINK_NOT_FOUND));
+    }
+
     public List<DrinkResponse> getAllDrinks() {
       return drinkRepository.findAllByIsActiveTrue()
               .stream().map(this::drinkToResponse).toList();

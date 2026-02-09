@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.dto.response;
+package uz.jvh.nextpizza.dto.response.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

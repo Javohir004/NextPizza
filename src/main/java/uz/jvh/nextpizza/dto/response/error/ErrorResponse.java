@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.dto.response;
+package uz.jvh.nextpizza.dto.response.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
