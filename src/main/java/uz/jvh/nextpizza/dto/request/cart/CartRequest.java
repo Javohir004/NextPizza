@@ -1,4 +1,4 @@
-package uz.jvh.nextpizza.dto.request;
+package uz.jvh.nextpizza.dto.request.cart;
 
 
 import lombok.*;

@@ -3,7 +3,7 @@ package uz.jvh.nextpizza.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import uz.jvh.nextpizza.dto.request.AddToCartRequest;
+import uz.jvh.nextpizza.dto.request.cart.AddToCartRequest;
 import uz.jvh.nextpizza.dto.response.CartItemResponse;
 import uz.jvh.nextpizza.dto.response.CartResponse;
 import uz.jvh.nextpizza.enomerator.ErrorCode;
@@ -15,6 +15,7 @@ import uz.jvh.nextpizza.repository.CartRepository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -28,9 +29,9 @@ public class CartService {
     private final DrinkService drinkService;
 
     @Transactional
-    public Cart createCart(Long userId) {
-        User byIdE = userService.findByIdE(userId);
-       if(cartRepository.existsByUserIdAndIsActiveTrue(byIdE.getId())){
+    public CartResponse createCart(Long userId) {
+        User byIdE = getUser(userId);
+        if(cartRepository.existsByUserIdAndIsActiveTrue(byIdE.getId())){
            throw new NextPizzaException
                    (ErrorCode.CART_ALREADY_EXISTS, "User name: " + byIdE.getUsername() + " , Id: " + byIdE.getId());
        }
@@ -40,14 +41,19 @@ public class CartService {
                 .totalPrice(BigDecimal.ZERO)
                 .totalItems(0).build();
 
-        return cartRepository.save(cart);
+        return toCartResponse(cartRepository.save(cart));
+    }
+
+    private User getUser(Long userId) {
+        User byIdE = userService.findByIdE(userId);
+        return byIdE;
     }
 
     /**
      * Pizza savatga qo'shish
      */
     public CartResponse addPizzaToCart(Long userId, AddToCartRequest request) {
-        Cart cart = getOrCreateCart(userId);
+        Cart cart = getCart(userId);
         Pizza pizza = pizzaService.findById(request.getPizzaId());
 
         // Agar allaqachon savatda bo'lsa - quantity ni oshirish
@@ -82,7 +88,7 @@ public class CartService {
      * Drink savatga qo'shish
      */
     public CartResponse addDrinkToCart(Long userId, AddToCartRequest request) {
-        Cart cart = getOrCreateCart(userId);
+        Cart cart = getCart(userId);
         Drink drink = drinkService.findById(request.getDrinkId());
 
         CartItem existingItem = findCartItemByDrink(cart, drink);
@@ -114,7 +120,7 @@ public class CartService {
      * Cart item miqdorini o'zgartirish
      */
     public CartResponse updateCartItemQuantity(Long userId, Long cartItemId, Integer newQuantity) {
-        Cart cart = getOrCreateCart(userId);
+        Cart cart = getCart(userId);
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getId().equals(cartItemId))
@@ -139,7 +145,7 @@ public class CartService {
      * Cart itemni o'chirish
      */
     public CartResponse removeCartItem(Long userId, Long cartItemId) {
-        Cart cart = getOrCreateCart(userId);
+        Cart cart = getCart(userId);
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getId().equals(cartItemId))
@@ -159,7 +165,7 @@ public class CartService {
      * Savatni tozalash
      */
     public void clearCart(Long userId) {
-        Cart cart = getOrCreateCart(userId);
+        Cart cart = getCart(userId);
 
         cart.getItems().clear();
         cart.setTotalPrice(BigDecimal.ZERO);
@@ -171,9 +177,30 @@ public class CartService {
     /**
      * Savat ko'rish
      */
-    public CartResponse getCart(Long userId) {
-        Cart cart = getOrCreateCart(userId);
-        return toCartResponse(cart);
+    @Transactional
+    public Cart getCart(Long userId) {
+        Optional<Cart> byUserIdAndIsActiveTrue = cartRepository.findByUserIdAndIsActiveTrue(userId);
+        if (byUserIdAndIsActiveTrue.isPresent()) {
+            return byUserIdAndIsActiveTrue.get();
+        }
+
+        User cartOwner = getUser(userId);
+
+        if(cartRepository.existsByUserIdAndIsActiveTrue(cartOwner.getId())){
+            throw new NextPizzaException
+                    (ErrorCode.CART_ALREADY_EXISTS, "User name: " + cartOwner.getUsername() + " , Id: " + cartOwner.getId());
+        }
+        Cart cart = Cart.builder()
+                .user(cartOwner)
+                .items(new ArrayList<>())
+                .totalPrice(BigDecimal.ZERO)
+                .totalItems(0).build();
+        return cartRepository.save(cart);
+    }
+
+    public CartResponse getCardByUserId(Long userId) {
+        return toCartResponse(cartRepository.findByUserIdAndIsActiveTrue(userId)
+                .orElseThrow(()->new NextPizzaException(ErrorCode.CART_NOT_FOUND, "UserId: " + userId)));
     }
 
     // ========== Helper Methods ==========
@@ -203,12 +230,6 @@ public class CartService {
 
         cart.setTotalPrice(totalPrice);
         cart.setTotalItems(totalItems);
-    }
-
-    @Transactional
-    public Cart getOrCreateCart(Long userId) {
-        return cartRepository.findByUserIdAndIsActiveTrue(userId)
-                .orElseGet(() -> createCart(userId));
     }
 
     private CartResponse toCartResponse(Cart cart) {
