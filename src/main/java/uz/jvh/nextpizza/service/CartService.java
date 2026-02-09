@@ -3,7 +3,8 @@ package uz.jvh.nextpizza.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import uz.jvh.nextpizza.dto.request.cart.AddToCartRequest;
+import uz.jvh.nextpizza.dto.request.cart.AddDrinkToCartRequest;
+import uz.jvh.nextpizza.dto.request.cart.AddPizzaToCartRequest;
 import uz.jvh.nextpizza.dto.response.CartItemResponse;
 import uz.jvh.nextpizza.dto.response.CartResponse;
 import uz.jvh.nextpizza.enomerator.ErrorCode;
@@ -52,7 +53,7 @@ public class CartService {
     /**
      * Pizza savatga qo'shish
      */
-    public CartResponse addPizzaToCart(Long userId, AddToCartRequest request) {
+    public CartResponse addPizzaToCart(Long userId, AddPizzaToCartRequest request) {
         Cart cart = getCart(userId);
         Pizza pizza = pizzaService.findById(request.getPizzaId());
 
@@ -87,7 +88,7 @@ public class CartService {
     /**
      * Drink savatga qo'shish
      */
-    public CartResponse addDrinkToCart(Long userId, AddToCartRequest request) {
+    public CartResponse addDrinkToCart(Long userId, AddDrinkToCartRequest request) {
         Cart cart = getCart(userId);
         Drink drink = drinkService.findById(request.getDrinkId());
 

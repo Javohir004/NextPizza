@@ -4,9 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import uz.jvh.nextpizza.dto.request.cart.AddDrinkToCartRequest;
+import uz.jvh.nextpizza.dto.request.cart.AddPizzaToCartRequest;
 import uz.jvh.nextpizza.entity.User;
 import org.springframework.web.bind.annotation.*;
-import uz.jvh.nextpizza.dto.request.cart.AddToCartRequest;
 import uz.jvh.nextpizza.dto.request.cart.UpdateCartItemRequest;
 import uz.jvh.nextpizza.dto.response.CartResponse;
 import uz.jvh.nextpizza.service.CartService;
@@ -38,7 +39,7 @@ public class CartController {
      */
     @PostMapping("/add-pizza")
     public ResponseEntity<CartResponse> addPizzaToCart( @AuthenticationPrincipal User user,
-                                                       @Valid @RequestBody AddToCartRequest request) {
+                                                       @Valid @RequestBody AddPizzaToCartRequest request) {
         return ResponseEntity.ok(cartService.addPizzaToCart(user.getId(), request));
     }
 
@@ -48,7 +49,7 @@ public class CartController {
      */
     @PostMapping("/add-drink")
     public ResponseEntity<CartResponse> addDrinkToCart(@AuthenticationPrincipal User user,
-                                                       @Valid @RequestBody AddToCartRequest request) {
+                                                       @Valid @RequestBody AddDrinkToCartRequest request) {
         return ResponseEntity.ok(cartService.addDrinkToCart(user.getId(), request));
     }
 
