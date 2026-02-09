@@ -11,10 +11,10 @@ import java.math.BigDecimal;
 @Builder
 public class CartItemResponse {
     private Long id;
-    private CartResponse cart;
-    private PizzaResponse pizza;
-    private DrinkResponse drink;
-
+    private Long pizzaId;
+    private String pizzaName;
+    private Long drinkId;
+    private String drinkName;
     private Integer quantity;
     private BigDecimal price;
     private BigDecimal totalPrice;

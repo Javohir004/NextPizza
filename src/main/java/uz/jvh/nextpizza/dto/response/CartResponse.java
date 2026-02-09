@@ -13,8 +13,8 @@ import java.util.List;
 @Builder
 public class CartResponse {
     private Long id;
-    private UserResponse user;
-    private List<CartItem> items = new ArrayList<>();
+    private Long userId;
+    private List<CartItemResponse> items = new ArrayList<>();
     private BigDecimal totalPrice = BigDecimal.ZERO;
     private Integer totalItems = 0;
     private boolean isActive;

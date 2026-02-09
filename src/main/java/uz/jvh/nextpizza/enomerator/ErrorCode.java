@@ -33,6 +33,7 @@ public enum ErrorCode {
 
 
     // ==================== CART ====================
+    CART_ALREADY_EXISTS("Userda allaqachon cart yaratilgan" ,  HttpStatus.CONFLICT),
     CART_NOT_FOUND("Savat topilmadi", HttpStatus.NOT_FOUND),
     CART_ITEM_NOT_FOUND("Savat elementi topilmadi", HttpStatus.NOT_FOUND),
     CART_EMPTY("Savat bo'sh", HttpStatus.BAD_REQUEST),

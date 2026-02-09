@@ -95,6 +95,11 @@ public class PizzaService {
                 .collect(Collectors.toList());
     }
 
+    public Pizza findById(Long id) {
+      return  pizzaRepository.findById(id).
+              orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND ,"ID: " + id));
+    }
+
 
     public Pizza mapRequestToEntity(PizzaRequest pizzaRequest) {
         return Pizza.builder()
