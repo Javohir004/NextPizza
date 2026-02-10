@@ -43,7 +43,6 @@ public class OrderService {
                     String.format("Kerak: %s, Mavjud: %s", cart.getTotalPrice(), user.getBalance()));
         }
 
-        // Order yaratish
         Order order = Order.builder().
                 user(user)
                 .orderDate(LocalDateTime.now())
@@ -64,19 +63,15 @@ public class OrderService {
                     .price(cartItem.getPrice())
                     .totalPrice(cartItem.getTotalPrice())
                     .build();
-
             order.getOrderItems().add(orderItem);
         }
 
         // Balansdan ayirish
         user.setBalance(user.getBalance().subtract(cart.getTotalPrice()));
-
-        // Saqlash
         Order savedOrder = orderRepository.save(order);
 
         // Savatni tozalash
         cartService.clearCart(userId);
-
         return toOrderResponse(savedOrder);
     }
 
@@ -86,7 +81,6 @@ public class OrderService {
     public List<OrderResponse> getMyOrders(Long userId) {
         User user = userService.findByIdE(userId);
         List<Order> orders = orderRepository.findByUserOrderByOrderDateDesc(user);
-
         return orders.stream().map(this::toOrderResponse).toList();
     }
 
@@ -101,7 +95,6 @@ public class OrderService {
         if (!order.getUser().getId().equals(userId)) {
             throw new NextPizzaException(ErrorCode.FORBIDDEN, "Bu buyurtma sizniki emas");
         }
-
         return toOrderResponse(order);
     }
 
@@ -133,7 +126,6 @@ public class OrderService {
         // Pulni qaytarish
         User user = order.getUser();
         user.setBalance(user.getBalance().add(order.getTotalPrice()));
-
         return toOrderResponse(orderRepository.save(order));
     }
 
@@ -144,7 +136,6 @@ public class OrderService {
      */
     public List<OrderResponse> getAllOrders() {
         List<Order> orders = orderRepository.findAllByOrderByOrderDateDesc();
-
         return orders.stream().map(this::toOrderResponse).toList();
     }
 
@@ -153,7 +144,6 @@ public class OrderService {
      */
     public List<OrderResponse> getOrdersByStatus(OrderStatus status) {
         List<Order> orders = orderRepository.findByOrderStatusOrderByOrderDateDesc(status);
-
         return orders.stream().map(this::toOrderResponse).toList();
     }
 
@@ -191,16 +181,28 @@ public class OrderService {
     }
 
     private OrderResponse toOrderResponse(Order order) {
-        List<OrderItemResponse> items = order.getOrderItems().stream().map(this::toOrderItemResponse).toList();
+        List<OrderItemResponse> items = order.getOrderItems().
+                stream().map(this::toOrderItemResponse).toList();
 
-        return OrderResponse.builder().id(order.getId()).userId(order.getUser().getId()).
-                orderDate(order.getOrderDate()).orderStatus(order.getOrderStatus()).totalPrice(order.getTotalPrice())
-                .totalItems(order.getTotalItems()).deliveryAddress(order.getDeliveryAddress()).orderItems(items).build();
+        return OrderResponse.builder()
+                .id(order.getId())
+                .userId(order.getUser().getId())
+                .orderDate(order.getOrderDate())
+                .orderStatus(order.getOrderStatus())
+                .totalPrice(order.getTotalPrice())
+                .totalItems(order.getTotalItems())
+                .deliveryAddress(order.getDeliveryAddress())
+                .orderItems(items).build();
     }
 
     private OrderItemResponse toOrderItemResponse(OrderItem item) {
-        return OrderItemResponse.builder().id(item.getId()).productName(item.getProductName())
-                .quantity(item.getQuantity()).price(item.getPrice()).totalPrice(item.getTotalPrice()).build();
+        return OrderItemResponse.builder()
+                .id(item.getId())
+                .productName(item.getProductName())
+                .quantity(item.getQuantity())
+                .price(item.getPrice())
+                .totalPrice(item.getTotalPrice())
+                .build();
     }
 
 
