@@ -2,7 +2,7 @@ package uz.jvh.nextpizza.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import uz.jvh.nextpizza.enomerator.OrderState;
+import uz.jvh.nextpizza.enomerator.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ public class Order extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_state", nullable = false)
-    private OrderState orderState;  // CREATED, COOKING, DELIVERING, COMPLETED
+    private OrderStatus orderStatus;  // CREATED, COOKING, DELIVERING, COMPLETED
 
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;  // Jami narx

@@ -9,7 +9,7 @@ import uz.jvh.nextpizza.dto.request.cart.AddPizzaToCartRequest;
 import uz.jvh.nextpizza.entity.User;
 import org.springframework.web.bind.annotation.*;
 import uz.jvh.nextpizza.dto.request.cart.UpdateCartItemRequest;
-import uz.jvh.nextpizza.dto.response.CartResponse;
+import uz.jvh.nextpizza.dto.response.cart.CartResponse;
 import uz.jvh.nextpizza.service.CartService;
 
 @RequestMapping("/api/cart")

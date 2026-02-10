@@ -1,6 +1,7 @@
-package uz.jvh.nextpizza.dto.response;
+package uz.jvh.nextpizza.dto.response.order;
 
 import lombok.*;
+
 
 import java.math.BigDecimal;
 
@@ -9,14 +10,11 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
-public class CartItemResponse {
+public class OrderItemResponse {
+
     private Long id;
-    private Long pizzaId;
-    private String pizzaName;
-    private Long drinkId;
-    private String drinkName;
+    private String productName;
     private Integer quantity;
     private BigDecimal price;
     private BigDecimal totalPrice;
-    private boolean isActive;
 }
