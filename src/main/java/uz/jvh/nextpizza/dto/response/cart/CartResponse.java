@@ -1,7 +1,6 @@
-package uz.jvh.nextpizza.dto.response;
+package uz.jvh.nextpizza.dto.response.cart;
 
 import lombok.*;
-import uz.jvh.nextpizza.entity.CartItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
