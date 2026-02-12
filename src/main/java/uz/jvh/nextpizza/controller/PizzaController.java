@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import uz.jvh.nextpizza.dto.request.PizzaRequest;
 import uz.jvh.nextpizza.dto.response.PizzaResponse;
 import uz.jvh.nextpizza.enomerator.PizzaType;
+import uz.jvh.nextpizza.enomerator.RequestType;
 import uz.jvh.nextpizza.service.FileStorageService;
 import uz.jvh.nextpizza.service.PizzaService;
 
@@ -73,7 +74,7 @@ public class PizzaController {
             @ModelAttribute PizzaRequest pizzaRequest,
             @RequestParam("image") MultipartFile image)  throws IOException {
 
-        String fileName = fileStorageService.saveFile(image);
+        String fileName = fileStorageService.saveFile(image , RequestType.PIZZA);
         pizzaRequest.setImageUrl(fileName);
 
         return ResponseEntity.ok(pizzaService.createFood(pizzaRequest));
