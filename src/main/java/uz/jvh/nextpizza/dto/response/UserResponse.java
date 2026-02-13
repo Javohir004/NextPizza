@@ -27,6 +27,6 @@ public class UserResponse {
     private BigDecimal balance;
     private String address;
     private boolean enabled;
-    private boolean isActive;
+    private boolean active;
     private LocalDateTime createdDate;
 }
