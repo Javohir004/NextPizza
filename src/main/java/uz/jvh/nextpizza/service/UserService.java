@@ -133,7 +133,7 @@ public class UserService {
                 .phoneNumber(user.getPhoneNumber())
                 .balance(user.getBalance())
                 .address(user.getAddress())
-                .isActive(user.isActive())
+                .active(user.isActive())
                 .enabled(user.isEnabled())
                 .createdDate(user.getCreated())
                 .build();
