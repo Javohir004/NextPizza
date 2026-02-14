@@ -25,7 +25,7 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
     /**
@@ -55,8 +55,8 @@ public class AuthenticationService {
         userRepository.save(user);
 
         // Token yaratish
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        var jwtToken = jwtTokenProvider.generateToken(user);
+        var refreshToken = jwtTokenProvider.generateRefreshToken(user);
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
@@ -70,8 +70,7 @@ public class AuthenticationService {
     public AuthenticationResponse login(LoginRequest request) {
         try {
             // Authentication
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                             request.getEmail(),
                             request.getPassword()
                     )
@@ -81,12 +80,12 @@ public class AuthenticationService {
         }
 
         // User topish
-        var user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new NextPizzaException(ErrorCode.USER_NOT_FOUND, request.getEmail()));
 
         // Token yaratish
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        String jwtToken = jwtTokenProvider.generateToken(user);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(user);
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
