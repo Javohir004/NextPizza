@@ -2,6 +2,7 @@ package uz.jvh.nextpizza.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import uz.jvh.nextpizza.dto.request.UserRequest;
 import uz.jvh.nextpizza.dto.response.UserResponse;
@@ -19,6 +20,24 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getCurrentUser(@AuthenticationPrincipal User user) {
+        UserResponse response = UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .phoneNumber(user.getPhoneNumber())
+                .balance(user.getBalance())
+                .birthDate(user.getBirthDate())
+                .address(user.getAddress())
+                .role(user.getRole())
+                .createdDate(user.getCreated())
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
 
     @PutMapping("/update/{id}")
     public UserResponse updateUser(@PathVariable("id") Long id, @RequestBody UserRequest userRequest) {
