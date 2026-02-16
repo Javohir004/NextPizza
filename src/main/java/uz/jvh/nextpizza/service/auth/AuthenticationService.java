@@ -17,6 +17,7 @@ import uz.jvh.nextpizza.entity.User;
 import uz.jvh.nextpizza.exception.NextPizzaException;
 import uz.jvh.nextpizza.repository.UserRepository;
 import uz.jvh.nextpizza.enomerator.Role;
+import uz.jvh.nextpizza.security.JwtTokenProvider;
 
 
 @Service
