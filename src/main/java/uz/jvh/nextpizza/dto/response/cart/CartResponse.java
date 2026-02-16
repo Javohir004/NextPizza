@@ -16,5 +16,5 @@ public class CartResponse {
     private List<CartItemResponse> items = new ArrayList<>();
     private BigDecimal totalPrice = BigDecimal.ZERO;
     private Integer totalItems = 0;
-    private boolean isActive;
+    private boolean active;
 }

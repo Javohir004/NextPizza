@@ -18,5 +18,6 @@ public class CartItemResponse {
     private Integer quantity;
     private BigDecimal price;
     private BigDecimal totalPrice;
-    private boolean isActive;
+    private String imageUrl;
+    private boolean active;
 }

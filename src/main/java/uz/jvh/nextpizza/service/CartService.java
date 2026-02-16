@@ -248,6 +248,15 @@ public class CartService {
     }
 
     private CartItemResponse toCartItemResponse(CartItem item) {
+
+        String imageUrl = null;
+
+        if (item.getPizza() != null) {
+            imageUrl = item.getPizza().getImageUrl();
+        } else if (item.getDrink() != null) {
+            imageUrl = item.getDrink().getImageUrl();
+        }
+
         return CartItemResponse.builder()
                 .id(item.getId())
                 .pizzaId(item.getPizza() != null ? item.getPizza().getId() : null)
@@ -257,6 +266,7 @@ public class CartService {
                 .quantity(item.getQuantity())
                 .price(item.getPrice())
                 .totalPrice(item.getTotalPrice())
+                .imageUrl(imageUrl)
                 .build();
     }
 }
