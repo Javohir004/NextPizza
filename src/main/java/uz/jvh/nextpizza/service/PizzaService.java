@@ -109,13 +109,12 @@ public class PizzaService {
                 .description(pizzaRequest.getDescription())
                 .imageUrl(pizzaRequest.getImageUrl())
                 .build();
-
     }
 
 
     public PizzaResponse toPizzaResponse(Pizza pizza) {
         return PizzaResponse.builder()
-                .foodId(pizza.getId())
+                .pizzaId(pizza.getId())
                 .name(pizza.getName())
                 .pizzaType(pizza.getPizzaType())
                 .price(pizza.getPrice())
@@ -124,4 +123,5 @@ public class PizzaService {
                 .createDate(pizza.getCreated())
                 .build();
     }
+
 }
