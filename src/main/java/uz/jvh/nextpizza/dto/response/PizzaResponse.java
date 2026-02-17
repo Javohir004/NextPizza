@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PizzaResponse {
 
-    private Long foodId;
+    private Long pizzaId;
 
     private String name;
 
