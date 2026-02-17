@@ -27,7 +27,7 @@ public class OrderController {
      * Buyurtma berish (Cart → Order)
      * POST /api/orders
      */
-    @PostMapping
+    @PostMapping("create-orders")
     public ResponseEntity<OrderResponse> createOrder(@AuthenticationPrincipal User user,
                                                      @Valid @RequestBody CreateOrderRequest request) {
 
