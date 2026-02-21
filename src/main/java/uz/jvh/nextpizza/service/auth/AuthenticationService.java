@@ -69,6 +69,8 @@ public class AuthenticationService {
      * Tizimga kirish
      */
     public AuthenticationResponse login(LoginRequest request) {
+        // agar paroli esdan chiqib qolsa shu yardan yangisni yasab olaveraman
+        String sss = passwordEncoder.encode(request.getPassword());
         try {
             // Authentication
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(

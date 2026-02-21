@@ -3,6 +3,7 @@ package uz.jvh.nextpizza.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.jvh.nextpizza.dto.request.DrinkRequest;
@@ -23,33 +24,6 @@ public class DrinkController {
    private final DrinkService drinkService;
    private final FileStorageService fileStorageService;
 
-//   @PostMapping("/create-drink")
-//   public ResponseEntity<DrinkResponse> createDrink(@RequestBody DrinkRequest drinkRequest) {
-//     return ResponseEntity.ok(drinkService.createDrink(drinkRequest));
-//   }
-
-    @PostMapping(value = "/create-drink", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<DrinkResponse> createDrink(
-            @ModelAttribute DrinkRequest drinkRequest,
-            @RequestParam("image") MultipartFile image)  throws IOException {
-
-        String fileName = fileStorageService.saveFile(image , RequestType.DRINK);
-        drinkRequest.setImageUrl(fileName);
-
-        return ResponseEntity.ok(drinkService.createDrink(drinkRequest));
-    }
-
-    @PutMapping("/update-drink/{id}")
-    public ResponseEntity<DrinkResponse> updateDrink(@PathVariable("id") Long id ,@RequestBody DrinkRequest drinkRequest) {
-       return ResponseEntity.ok(drinkService.updateDrink(id,drinkRequest));
-    }
-
-    @DeleteMapping("/delete-drink/{id}")
-    public ResponseEntity<String> deleteDrink(@PathVariable("id") Long id) {
-       drinkService.deleteDrink(id);
-       return ResponseEntity.ok("Drink muvaffaqiyatli o'chirildi");
-    }
-
     @GetMapping("/findby-id/{id}")
     public ResponseEntity<DrinkResponse> findById(@PathVariable("id") Long id) {
        return ResponseEntity.ok(drinkService.getDrink(id));
@@ -63,5 +37,39 @@ public class DrinkController {
     @GetMapping("/find-all")
     public ResponseEntity<List<DrinkResponse>> findAll() {
        return ResponseEntity.ok(drinkService.getAllDrinks());
+    }
+
+    /// admin uchun end points
+
+    @PostMapping(value = "/create-drink", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<DrinkResponse> createDrink(
+            @ModelAttribute DrinkRequest drinkRequest,
+            @RequestParam("image") MultipartFile image)  throws IOException {
+
+        String fileName = fileStorageService.saveFile(image , RequestType.DRINK);
+        drinkRequest.setImageUrl(fileName);
+
+        return ResponseEntity.ok(drinkService.createDrink(drinkRequest));
+    }
+
+    @PutMapping("/update-drink/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<DrinkResponse> updateDrink(@PathVariable("id") Long id ,
+                                                     @RequestBody DrinkRequest drinkRequest) {
+       return ResponseEntity.ok(drinkService.updateDrink(id,drinkRequest));
+    }
+
+    @DeleteMapping("/delete-drink/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<String> deleteDrink(@PathVariable("id") Long id) {
+       drinkService.deleteDrink(id);
+       return ResponseEntity.ok("Drink muvaffaqiyatli o'chirildi");
+    }
+
+    @GetMapping("/find-all-for-admin")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<List<DrinkResponse>> findAllForAdmin() {
+        return ResponseEntity.ok(drinkService.getAllDrinksForAdmin());
     }
 }

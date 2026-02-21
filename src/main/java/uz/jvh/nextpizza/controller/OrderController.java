@@ -69,7 +69,7 @@ public class OrderController {
      * GET /api/orders/admin/all
      */
     @GetMapping("/admin/all")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
@@ -79,7 +79,7 @@ public class OrderController {
      * GET /api/orders/admin/status/{status}
      */
     @GetMapping("/admin/status/{status}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public ResponseEntity<List<OrderResponse>> getOrdersByStatus(@PathVariable OrderStatus status) {
 
         return ResponseEntity.ok(orderService.getOrdersByStatus(status));
@@ -90,8 +90,9 @@ public class OrderController {
      * PUT /api/orders/admin/{orderId}/status
      */
     @PutMapping("/admin/{orderId}/status")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('OWNER')")
-    public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable Long orderId, @Valid @RequestBody UpdateOrderStatusRequest request) {
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable Long orderId,
+                                                           @Valid @RequestBody UpdateOrderStatusRequest request) {
 
         return ResponseEntity.ok(orderService.updateOrderStatus(orderId, request.getStatus()));
     }

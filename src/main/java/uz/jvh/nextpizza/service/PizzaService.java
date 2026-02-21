@@ -86,6 +86,15 @@ public class PizzaService {
                 .collect(Collectors.toList());
     }
 
+    // Oddiy list (type bo'yicha saralangan)
+    public List<PizzaResponse> getAllPizzasListForAdmin() {
+        List<Pizza> pizzas = pizzaRepository.findAllByOrderByPizzaTypeAscPriceAsc();
+
+        return pizzas.stream()
+                .map(this::toPizzaResponse)
+                .collect(Collectors.toList());
+    }
+
     // Bitta type bo'yicha
     public List<PizzaResponse> getPizzasByType(PizzaType type) {
         List<Pizza> pizzas = pizzaRepository.findAllByIsActiveTrueAndPizzaTypeOrderByPriceAsc(type);
@@ -98,6 +107,13 @@ public class PizzaService {
     public Pizza findById(Long id) {
       return  pizzaRepository.findById(id).
               orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND ,"ID: " + id));
+    }
+
+    public PizzaResponse getById(Long id) {
+        Pizza pizza = pizzaRepository.findById(id).
+                orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND, "ID: " + id));
+
+        return toPizzaResponse(pizza);
     }
 
 
@@ -121,6 +137,7 @@ public class PizzaService {
                 .description(pizza.getDescription())
                 .imageUrl(pizza.getImageUrl())
                 .createDate(pizza.getCreated())
+                .active(pizza.isActive())
                 .build();
     }
 
