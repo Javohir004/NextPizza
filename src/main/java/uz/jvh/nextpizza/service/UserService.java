@@ -51,6 +51,12 @@ public class UserService {
                 orElseThrow(() -> new NextPizzaException(ErrorCode.USER_NOT_FOUND, "UserId: " + id));
         return userToResponse(user);
     }
+
+    public String findUserFullName(Long id) {
+        User user = userRepository.findByIdAndIsActiveTrue(id).
+                orElseThrow(() -> new NextPizzaException(ErrorCode.USER_NOT_FOUND, "UserId: " + id));
+        return  user.getFirstName() + " " +user.getLastName();
+    }
     public User findByIdE(Long id) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new NextPizzaException(ErrorCode.USER_NOT_FOUND, "UserId: " + id));

@@ -3,6 +3,7 @@ package uz.jvh.nextpizza.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.jvh.nextpizza.dto.request.PizzaRequest;
@@ -34,42 +35,53 @@ public class PizzaController {
         return ResponseEntity.ok(pizzaService.searchFoods(name, minPrice, maxPrice, pizzaType));
     }
 
-    // Barcha pitsalar (type bo'yicha guruhlangan)
+
     @GetMapping("/grouped")
     public ResponseEntity<Map<PizzaType, List<PizzaResponse>>> getPizzasGrouped() {
         return ResponseEntity.ok(pizzaService.getAllPizzas());
     }
 
-    // Oddiy list
+
     @GetMapping
     public ResponseEntity<List<PizzaResponse>> getAllPizzas() {
         return ResponseEntity.ok(pizzaService.getAllPizzasList());
     }
 
-    // Type bo'yicha filter
+    @GetMapping("/pizza/{id}")
+    public ResponseEntity<PizzaResponse> getPizzaById(@PathVariable Long id) {
+        return ResponseEntity.ok(pizzaService.getById(id));
+    }
+
+
     @GetMapping("/type/{type}")
     public ResponseEntity<List<PizzaResponse>> getPizzasByType(@PathVariable PizzaType type) {
         return ResponseEntity.ok(pizzaService.getPizzasByType(type));
     }
 
+    /// admin uchun end pointlar
+
+    @GetMapping("/all-pizza-for-admin")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<List<PizzaResponse>> getAllPizzasForAdmin() {
+        return ResponseEntity.ok(pizzaService.getAllPizzasListForAdmin());
+    }
+
+
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public PizzaResponse update(@PathVariable("id") Long id, @RequestBody PizzaRequest pizzaRequest) {
         return pizzaService.updateFood(id, pizzaRequest);
     }
 
-//    @PostMapping("/create-pizza")
-//    public ResponseEntity<PizzaResponse> createUser(@RequestBody PizzaRequest pizzaRequest) {
-//        return ResponseEntity.ok(pizzaService.createFood(pizzaRequest));
-//    }
-
-
-    @DeleteMapping("/delete/{foodId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long foodId) {
-        pizzaService.deleteFoodById(foodId);
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        pizzaService.deleteFoodById(id);
         return ResponseEntity.ok("Pizza muvaffaqiyatli o'chirildi.");
     }
 
     @PostMapping(value = "/create-pizza", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public ResponseEntity<PizzaResponse> createPizza(
             @ModelAttribute PizzaRequest pizzaRequest,
             @RequestParam("image") MultipartFile image)  throws IOException {

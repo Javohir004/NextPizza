@@ -26,4 +26,6 @@ public class PizzaResponse {
     private String imageUrl;
 
     private LocalDateTime createDate;
+
+    private boolean active;
 }

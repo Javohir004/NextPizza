@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.jvh.nextpizza.dto.request.order.CreateOrderRequest;
+import uz.jvh.nextpizza.dto.response.UserResponse;
 import uz.jvh.nextpizza.dto.response.order.OrderItemResponse;
 import uz.jvh.nextpizza.dto.response.order.OrderResponse;
 import uz.jvh.nextpizza.enomerator.ErrorCode;
@@ -183,10 +184,12 @@ public class OrderService {
     private OrderResponse toOrderResponse(Order order) {
         List<OrderItemResponse> items = order.getOrderItems().
                 stream().map(this::toOrderItemResponse).toList();
+        String fullName =  userService.findUserFullName(order.getUser().getId());
 
         return OrderResponse.builder()
                 .id(order.getId())
                 .userId(order.getUser().getId())
+                .userFullName(fullName)
                 .orderDate(order.getOrderDate())
                 .orderStatus(order.getOrderStatus())
                 .totalPrice(order.getTotalPrice())

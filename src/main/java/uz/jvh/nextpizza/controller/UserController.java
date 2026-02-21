@@ -2,6 +2,7 @@ package uz.jvh.nextpizza.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import uz.jvh.nextpizza.dto.request.UserRequest;
@@ -44,25 +45,6 @@ public class UserController {
         return userService.update(id, userRequest);
     }
 
-    @GetMapping("/all-user")
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        return ResponseEntity.ok(userService.findAll());
-    }
-
-
-    @GetMapping("/User-role/{role}/owner")
-    public ResponseEntity<List<UserResponse>> getUsersByRole(@PathVariable Role role) {
-        return ResponseEntity.ok(userService.findByRole(role));
-    }
-
-
-    @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok("Foydalanuvchi muvaffaqiyatli o'chirildi.");
-    }
-
-
     @GetMapping("/find-by-id/{userId}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.findById(userId));
@@ -72,6 +54,29 @@ public class UserController {
     @GetMapping("/my-balance")
     public ResponseEntity<BigDecimal> getUserBalance(@RequestParam Long userId) {
         return ResponseEntity.ok(userService.getUserBalance(userId));
+    }
+
+   /// admin uchun end pointlar
+
+   @GetMapping("/all-user")
+   @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+   public ResponseEntity<List<UserResponse>> getAllUsers() {
+       return ResponseEntity.ok(userService.findAll());
+   }
+
+
+    @GetMapping("/User-role/{role}/owner")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<List<UserResponse>> getUsersByRole(@PathVariable Role role) {
+        return ResponseEntity.ok(userService.findByRole(role));
+    }
+
+
+    @DeleteMapping("/delete/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok("Foydalanuvchi muvaffaqiyatli o'chirildi.");
     }
 
 

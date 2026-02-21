@@ -86,6 +86,10 @@ public class DrinkService {
       return drinkRepository.findAllByIsActiveTrue()
               .stream().map(this::drinkToResponse).toList();
     }
+    public List<DrinkResponse> getAllDrinksForAdmin() {
+      return drinkRepository.findAll()
+              .stream().map(this::drinkToResponse).toList();
+    }
 
     public  List<DrinkResponse> findByDrinkType(DrinkType drinkType) {
       return  drinkRepository.findByDrinkTypeAndIsActiveTrue(drinkType)

@@ -33,6 +33,9 @@ public interface PizzaRepository extends JpaRepository<Pizza, Long> {
     // Type va narx bo'yicha
     List<Pizza> findAllByIsActiveTrueOrderByPizzaTypeAscPriceAsc();
 
+    // Type va narx bo'yicha
+    List<Pizza> findAllByOrderByPizzaTypeAscPriceAsc();
+
     // Bitta type bo'yicha
     List<Pizza> findAllByIsActiveTrueAndPizzaTypeOrderByPriceAsc(PizzaType type);
 
