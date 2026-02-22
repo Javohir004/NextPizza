@@ -189,6 +189,12 @@ public class OrderService {
                 );
     }
 
+    public List<OrderResponse> getRecentOrders(){
+
+        return orderRepository.findTop7ByOrderByCreatedDesc()
+                .stream().map(this::toOrderResponse).toList();
+    }
+
 
 
     private String getProductName(CartItem cartItem) {

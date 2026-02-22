@@ -24,4 +24,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     long countByIsActiveIsTrue();
 
     long countByOrderDateBetweenAndIsActiveTrue(LocalDateTime startOfDay, LocalDateTime startOfNextDay);
+
+    List<Order> getByOrderDateBetweenAndIsActiveTrue(LocalDateTime startOfDay, LocalDateTime startOfNextDay);
+
+    List<Order> findTop7ByOrderByCreatedDesc();
 }

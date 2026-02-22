@@ -109,4 +109,10 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getTodayOrdersCount());
     }
 
+    @GetMapping("/get-today's-order")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('OWNER')")
+    public ResponseEntity<List<OrderResponse>> getTodayOrder() {
+        return ResponseEntity.ok(orderService.getRecentOrders());
+    }
+
 }
