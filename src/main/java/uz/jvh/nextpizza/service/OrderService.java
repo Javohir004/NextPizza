@@ -14,6 +14,7 @@ import uz.jvh.nextpizza.entity.*;
 import uz.jvh.nextpizza.exception.NextPizzaException;
 import uz.jvh.nextpizza.repository.OrderRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,6 +169,24 @@ public class OrderService {
 
         order.setOrderStatus(newStatus);
         return toOrderResponse(orderRepository.save(order));
+    }
+
+    public long allOrdersCount() {
+        return orderRepository.countByIsActiveIsTrue();
+    }
+
+    public long getTodayOrdersCount() {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime startOfNextDay = today.plusDays(1).atStartOfDay();
+
+        return orderRepository
+                .countByOrderDateBetweenAndIsActiveTrue(
+                        startOfDay,
+                        startOfNextDay
+                );
     }
 
 

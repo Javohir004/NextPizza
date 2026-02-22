@@ -7,6 +7,8 @@ import uz.jvh.nextpizza.enomerator.OrderStatus;
 import uz.jvh.nextpizza.entity.Order;
 import uz.jvh.nextpizza.entity.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,4 +21,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByOrderStatusOrderByOrderDateDesc(OrderStatus status);
 
+    long countByIsActiveIsTrue();
+
+    long countByOrderDateBetweenAndIsActiveTrue(LocalDateTime startOfDay, LocalDateTime startOfNextDay);
 }

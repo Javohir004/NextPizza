@@ -79,5 +79,9 @@ public class UserController {
         return ResponseEntity.ok("Foydalanuvchi muvaffaqiyatli o'chirildi.");
     }
 
+    @GetMapping("/users-count")
+    public ResponseEntity<Long> getUsersCount() {
+        return ResponseEntity.ok(userService.getUsersCount());
+    }
 
 }
