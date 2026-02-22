@@ -96,4 +96,17 @@ public class OrderController {
 
         return ResponseEntity.ok(orderService.updateOrderStatus(orderId, request.getStatus()));
     }
+
+    @GetMapping("/get-order-counts")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('OWNER')")
+    public ResponseEntity<Long> getOrderCounts() {
+        return ResponseEntity.ok(orderService.allOrdersCount());
+    }
+
+    @GetMapping("/get-today's-order-counts")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAnyAuthority('OWNER')")
+    public ResponseEntity<Long> getTodayOrderCounts() {
+        return ResponseEntity.ok(orderService.getTodayOrdersCount());
+    }
+
 }

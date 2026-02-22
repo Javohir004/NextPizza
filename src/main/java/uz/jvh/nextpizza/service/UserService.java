@@ -114,6 +114,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public long getUsersCount() {
+        return userRepository.countByIsActiveTrueAndRole(Role.USER);
+    }
+
     public User mapRequestToUser(UserRequest userRequest) {
         return User.builder()
                 .firstName(userRequest.getFirstName())
