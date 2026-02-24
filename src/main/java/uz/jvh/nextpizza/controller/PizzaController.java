@@ -84,8 +84,10 @@ public class PizzaController {
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public ResponseEntity<PizzaResponse> createPizza(
             @ModelAttribute PizzaRequest pizzaRequest,
+            @RequestParam PizzaType pizzaType,
             @RequestParam("image") MultipartFile image)  throws IOException {
 
+        pizzaRequest.setPizzaType(pizzaType);
         String fileName = fileStorageService.saveFile(image , RequestType.PIZZA);
         pizzaRequest.setImageUrl(fileName);
 

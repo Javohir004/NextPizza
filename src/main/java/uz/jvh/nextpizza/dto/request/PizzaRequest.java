@@ -1,6 +1,7 @@
 package uz.jvh.nextpizza.dto.request;
 
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import uz.jvh.nextpizza.enomerator.PizzaType;
 
@@ -17,6 +18,7 @@ public class PizzaRequest {
 
     private String description;
 
+    @NotNull
     private PizzaType pizzaType;
 
     private BigDecimal price;
