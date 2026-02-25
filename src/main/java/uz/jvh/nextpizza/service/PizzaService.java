@@ -2,14 +2,17 @@ package uz.jvh.nextpizza.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import uz.jvh.nextpizza.dto.request.PizzaRequest;
 import uz.jvh.nextpizza.dto.response.PizzaResponse;
 import uz.jvh.nextpizza.enomerator.ErrorCode;
 import uz.jvh.nextpizza.enomerator.PizzaType;
+import uz.jvh.nextpizza.enomerator.RequestType;
 import uz.jvh.nextpizza.entity.Pizza;
 import uz.jvh.nextpizza.exception.NextPizzaException;
 import uz.jvh.nextpizza.repository.PizzaRepository;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 public class PizzaService {
 
     private final PizzaRepository pizzaRepository;
+    private final FileStorageService  fileStorageService;
 
     @Transactional
     public PizzaResponse createFood(PizzaRequest pizzaRequest) {
@@ -50,7 +54,7 @@ public class PizzaService {
     }
 
     @Transactional
-    public PizzaResponse updateFood(Long id, PizzaRequest pizzaRequest) {
+    public PizzaResponse updateFood(Long id, PizzaRequest pizzaRequest , MultipartFile image) throws IOException {
         Pizza pizza = pizzaRepository.findById(id)
                 .orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND ,"ID: " + id));
 
@@ -58,11 +62,17 @@ public class PizzaService {
             return toPizzaResponse(pizza);
         }
 
+        if(image != null && !image.isEmpty()){
+            fileStorageService.deleteFile(pizza.getImageUrl(), RequestType.PIZZA);
+            String fileName = fileStorageService.saveFile(image , RequestType.PIZZA);
+            pizza.setImageUrl(fileName);
+        }
+
         Optional.ofNullable(pizzaRequest.getName()).ifPresent(pizza::setName);
         Optional.ofNullable(pizzaRequest.getDescription()).ifPresent(pizza::setDescription);
         Optional.ofNullable(pizzaRequest.getPrice()).ifPresent(pizza::setPrice);
         Optional.ofNullable(pizzaRequest.getPizzaType()).ifPresent(pizza::setPizzaType);
-        Optional.ofNullable(pizzaRequest.getImageUrl()).ifPresent(pizza::setImageUrl);
+//        Optional.ofNullable(pizzaRequest.getImageUrl()).ifPresent(pizza::setImageUrl);
 
         return toPizzaResponse(pizzaRepository.save(pizza));
     }
