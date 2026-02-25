@@ -66,18 +66,22 @@ public class PizzaController {
         return ResponseEntity.ok(pizzaService.getAllPizzasListForAdmin());
     }
 
-
-    @PutMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
-    public PizzaResponse update(@PathVariable("id") Long id, @RequestBody PizzaRequest pizzaRequest) {
-        return pizzaService.updateFood(id, pizzaRequest);
-    }
-
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         pizzaService.deleteFoodById(id);
         return ResponseEntity.ok("Pizza muvaffaqiyatli o'chirildi.");
+    }
+
+    @PostMapping(value = "/update-pizza/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
+    public PizzaResponse update(@PathVariable("id") Long id,
+                                @ModelAttribute PizzaRequest pizzaRequest ,
+                                @RequestParam PizzaType pizzaType,
+                                @RequestParam("image") MultipartFile image) throws IOException {
+
+        pizzaRequest.setPizzaType(pizzaType);
+        return pizzaService.updateFood(id, pizzaRequest , image);
     }
 
     @PostMapping(value = "/create-pizza", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

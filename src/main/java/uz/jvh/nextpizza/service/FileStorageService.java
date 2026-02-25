@@ -1,5 +1,6 @@
 package uz.jvh.nextpizza.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,9 +11,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class FileStorageService {
 
     private final String uploadDirPizza = "uploads/pizzas/";
@@ -40,4 +43,19 @@ public class FileStorageService {
 
         return fileName;
     }
+
+    public void deleteFile(String fileName, RequestType requestType) {
+        if (fileName == null || fileName.isBlank()) return;
+
+        Path uploadPath = requestType.equals(RequestType.DRINK)
+                ? Paths.get(uploadDirDrink)
+                : Paths.get(uploadDirPizza);
+
+        try {
+            Files.deleteIfExists(uploadPath.resolve(fileName));
+        } catch (IOException e) {
+            log.warn("Faylni o'chirishda xatolik: {}", fileName, e);
+        }
+    }
+
 }
