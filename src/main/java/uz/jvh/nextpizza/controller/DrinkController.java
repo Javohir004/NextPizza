@@ -55,11 +55,14 @@ public class DrinkController {
         return ResponseEntity.ok(drinkService.createDrink(drinkRequest));
     }
 
-    @PutMapping("/update-drink/{id}")
+    @PostMapping(value = "/update-drink/{id}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public ResponseEntity<DrinkResponse> updateDrink(@PathVariable("id") Long id ,
-                                                     @RequestBody DrinkRequest drinkRequest) {
-       return ResponseEntity.ok(drinkService.updateDrink(id,drinkRequest));
+                                                     @ModelAttribute DrinkRequest drinkRequest,
+                                                     @RequestParam DrinkType drinkType,
+                                                     @RequestParam("image") MultipartFile image)  throws IOException{
+       drinkRequest.setDrinkType(drinkType);
+        return ResponseEntity.ok(drinkService.updateDrink(id, drinkRequest , image));
     }
 
     @DeleteMapping("/delete-drink/{id}")

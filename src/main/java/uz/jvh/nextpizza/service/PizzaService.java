@@ -58,10 +58,6 @@ public class PizzaService {
         Pizza pizza = pizzaRepository.findById(id)
                 .orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND ,"ID: " + id));
 
-        if (pizzaRequest == null) {
-            return toPizzaResponse(pizza);
-        }
-
         if(image != null && !image.isEmpty()){
             fileStorageService.deleteFile(pizza.getImageUrl(), RequestType.PIZZA);
             String fileName = fileStorageService.saveFile(image , RequestType.PIZZA);
