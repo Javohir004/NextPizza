@@ -30,7 +30,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final OrderRepository orderRepository;
 
     ///  deyarli barcha methodlar ishlayapti
 
