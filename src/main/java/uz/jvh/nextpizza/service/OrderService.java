@@ -10,6 +10,7 @@ import uz.jvh.nextpizza.dto.response.order.OrderItemResponse;
 import uz.jvh.nextpizza.dto.response.order.OrderResponse;
 import uz.jvh.nextpizza.enomerator.ErrorCode;
 import uz.jvh.nextpizza.enomerator.OrderStatus;
+import uz.jvh.nextpizza.enomerator.Role;
 import uz.jvh.nextpizza.entity.*;
 import uz.jvh.nextpizza.exception.NextPizzaException;
 import uz.jvh.nextpizza.repository.OrderRepository;
@@ -92,9 +93,10 @@ public class OrderService {
     public OrderResponse getOrderById(Long userId, Long orderId) {
         Order order = orderRepository.findById(orderId).
                 orElseThrow(() -> new NextPizzaException(ErrorCode.ORDER_NOT_FOUND, "ID: " + orderId));
+        UserResponse byId = userService.findById(userId);
 
         // Faqat o'z buyurtmangizni ko'rish mumkin
-        if (!order.getUser().getId().equals(userId)) {
+        if (!byId.getRole().equals(Role.ADMIN) && !order.getUser().getId().equals(userId)) {
             throw new NextPizzaException(ErrorCode.FORBIDDEN, "Bu buyurtma sizniki emas");
         }
         return toOrderResponse(order);
