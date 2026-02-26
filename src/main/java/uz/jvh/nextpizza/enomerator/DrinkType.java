@@ -1,6 +1,9 @@
 package uz.jvh.nextpizza.enomerator;
 
 public enum DrinkType {
-    carbonated ,
-    still
+    carbonated,   // Cola, Fanta
+    still,        // Suv
+    juice,        // Sharbat
+    energy,       // Energetik
+    hot           // Choy, qahva
 }

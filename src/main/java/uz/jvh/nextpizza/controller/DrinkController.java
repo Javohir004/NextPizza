@@ -45,8 +45,10 @@ public class DrinkController {
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('OWNER')")
     public ResponseEntity<DrinkResponse> createDrink(
             @ModelAttribute DrinkRequest drinkRequest,
+            @RequestParam DrinkType drinkType,
             @RequestParam("image") MultipartFile image)  throws IOException {
 
+        drinkRequest.setDrinkType(drinkType);
         String fileName = fileStorageService.saveFile(image , RequestType.DRINK);
         drinkRequest.setImageUrl(fileName);
 
