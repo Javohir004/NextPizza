@@ -19,7 +19,4 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 
 EXPOSE 3000
 
-ENTRYPOINT ["java",
-  "-Xms64m",
-  "-Xmx256m",
-  "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xms64m", "-Xmx256m", "-jar", "app.jar"]
