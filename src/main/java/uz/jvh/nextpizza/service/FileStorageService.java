@@ -18,17 +18,25 @@ import java.util.UUID;
 @Slf4j
 public class FileStorageService {
 
-    private final String uploadDirPizza = "uploads/pizzas/";
-    private final String uploadDirDrink = "uploads/drinks/";
+    @Value("${UPLOAD_DIR:uploads}")
+    private String uploadDir;
+
+    private String uploadDirPizza() {
+        return uploadDir + "/pizzas/";
+    }
+
+    private String uploadDirDrink() {
+        return uploadDir + "/drinks/";
+    }
 
     public String saveFile(MultipartFile file , RequestType requestType) throws IOException {
 
         Path uploadPath = null;
 
         if(requestType.equals(RequestType.DRINK)){
-             uploadPath = Paths.get(uploadDirDrink);
+             uploadPath = Paths.get(uploadDirDrink());
         }else {
-         uploadPath = Paths.get(uploadDirPizza);
+         uploadPath = Paths.get(uploadDirPizza());
         }
 
         if (!Files.exists(uploadPath)) {
@@ -48,8 +56,8 @@ public class FileStorageService {
         if (fileName == null || fileName.isBlank()) return;
 
         Path uploadPath = requestType.equals(RequestType.DRINK)
-                ? Paths.get(uploadDirDrink)
-                : Paths.get(uploadDirPizza);
+                ? Paths.get(uploadDirDrink())
+                : Paths.get(uploadDirPizza());
 
         try {
             Files.deleteIfExists(uploadPath.resolve(fileName));
