@@ -1,0 +1,19 @@
+# Build
+.gradle/
+build/
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.vscode/
+
+# Rasmlar (Volume da saqlanadi)
+uploads/
+
+# Boshqalar
+*.md
+.env
+*.log
