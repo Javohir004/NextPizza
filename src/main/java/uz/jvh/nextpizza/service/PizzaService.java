@@ -50,7 +50,6 @@ public class PizzaService {
                 .orElseThrow(() -> new NextPizzaException(ErrorCode.PIZZA_NOT_FOUND ,"ID: " + id));
         pizza.setActive(false);
         pizzaRepository.save(pizza);
-        // flush() kerak emas - @Transactional avtomatik commit qiladi
     }
 
     @Transactional
@@ -68,7 +67,6 @@ public class PizzaService {
         Optional.ofNullable(pizzaRequest.getDescription()).ifPresent(pizza::setDescription);
         Optional.ofNullable(pizzaRequest.getPrice()).ifPresent(pizza::setPrice);
         Optional.ofNullable(pizzaRequest.getPizzaType()).ifPresent(pizza::setPizzaType);
-//        Optional.ofNullable(pizzaRequest.getImageUrl()).ifPresent(pizza::setImageUrl);
 
         return toPizzaResponse(pizzaRepository.save(pizza));
     }
