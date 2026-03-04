@@ -49,6 +49,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// file storage
+	implementation 'io.github.jan-tennert.supabase:storage-kt:2.1.0'
+	implementation 'io.ktor:ktor-client-okhttp:2.3.7'
 }
 
 tasks.named('test') {
