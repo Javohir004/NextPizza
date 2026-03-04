@@ -6,64 +6,70 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.jvh.nextpizza.enomerator.RequestType;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.UUID;
 
 @Service
 @Slf4j
 public class FileStorageService {
 
-    @Value("${UPLOAD_DIR:uploads}")
-    private String uploadDir;
+    @Value("${supabase.url}")
+    private String supabaseUrl;
 
-    private String uploadDirPizza() {
-        return uploadDir + "/pizzas/";
-    }
+    @Value("${supabase.secret-key}")
+    private String supabaseKey;
 
-    private String uploadDirDrink() {
-        return uploadDir + "/drinks/";
-    }
+    @Value("${supabase.bucket}")
+    private String bucket;
 
-    public String saveFile(MultipartFile file , RequestType requestType) throws IOException {
+    public String saveFile(MultipartFile file, RequestType requestType) throws IOException {
 
-        Path uploadPath = null;
-
-        if(requestType.equals(RequestType.DRINK)){
-             uploadPath = Paths.get(uploadDirDrink());
-        }else {
-         uploadPath = Paths.get(uploadDirPizza());
-        }
-
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
+        String folder = requestType == RequestType.DRINK ? "drinks" : "pizzas";
         String fileName = UUID.randomUUID() + ".png";
+        String path = folder + "/" + fileName;
 
-        Files.copy(file.getInputStream(),
-                uploadPath.resolve(fileName),
-                StandardCopyOption.REPLACE_EXISTING);
+        // Supabase Storage API ga yuklash
+        String uploadUrl = supabaseUrl + "/storage/v1/object/" + bucket + "/" + path;
 
-        return fileName;
+        HttpURLConnection conn = (HttpURLConnection) new URL(uploadUrl).openConnection();
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Authorization", "Bearer " + supabaseKey);
+        conn.setRequestProperty("Content-Type", "image/png");
+        conn.setRequestProperty("x-upsert", "true");
+
+        try (OutputStream os = conn.getOutputStream()) {
+            os.write(file.getBytes());
+        }
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode != 200 && responseCode != 201) {
+            throw new IOException("Supabase upload failed: " + responseCode);
+        }
+
+        // Public URL qaytaradi
+        String publicUrl = supabaseUrl + "/storage/v1/object/public/" + bucket + "/" + path;
+        log.info("Rasm yuklandi: {}", publicUrl);
+        return publicUrl;
     }
 
-    public void deleteFile(String fileName, RequestType requestType) {
-        if (fileName == null || fileName.isBlank()) return;
-
-        Path uploadPath = requestType.equals(RequestType.DRINK)
-                ? Paths.get(uploadDirDrink())
-                : Paths.get(uploadDirPizza());
+    public void deleteFile(String imageUrl, RequestType requestType) {
+        if (imageUrl == null || imageUrl.isBlank()) return;
 
         try {
-            Files.deleteIfExists(uploadPath.resolve(fileName));
-        } catch (IOException e) {
-            log.warn("Faylni o'chirishda xatolik: {}", fileName, e);
+            // URL dan path ni ajratib olamiz
+            String path = imageUrl.substring(imageUrl.indexOf("/object/public/") + 15);
+            String deleteUrl = supabaseUrl + "/storage/v1/object/" + path;
+
+            HttpURLConnection conn = (HttpURLConnection) new URL(deleteUrl).openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty("Authorization", "Bearer " + supabaseKey);
+            conn.getResponseCode();
+            log.info("Rasm o'chirildi: {}", path);
+        } catch (Exception e) {
+            log.warn("Rasmni o'chirishda xatolik: {}", imageUrl, e);
         }
     }
-
 }
