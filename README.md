@@ -21,11 +21,6 @@ The project follows real business logic and is built on **role-based access cont
 - View and manage all orders
 - Update order status (CREATED → COOKING → DELIVERING → COMPLETED)
 
-### 👑 Owner
-- Manage all users and admins
-- Assign and revoke roles
-- Full control over all orders and users
-
 ---
 
 ## 🏗 Tech Stack
@@ -65,7 +60,7 @@ order_items  → id, order_id, product_name, quantity, price
 
 - **JWT Authentication** — Stateless token-based authentication
 - **BCrypt** — Password encryption (strength: 10)
-- **Role-based access control** — USER / ADMIN / OWNER
+- **Role-based access control** — USER / ADMIN
 - **Soft Delete** — Records are never physically deleted (`is_active = false`)
 
 ---
